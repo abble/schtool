@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>500</height>
+    <height>504</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -41,7 +41,7 @@
    <item>
     <widget class="QFrame" name="epdateLayout">
      <property name="styleSheet">
-      <string notr="true">background-color: rgb(213, 213, 213);</string>
+      <string notr="true">background-color: rgb(80, 80, 80);</string>
      </property>
      <property name="frameShape">
       <enum>QFrame::NoFrame</enum>
@@ -90,6 +90,9 @@
           <bold>false</bold>
          </font>
         </property>
+        <property name="styleSheet">
+         <string notr="true">color: rgb(255, 255, 255);</string>
+        </property>
         <item>
          <property name="text">
           <string>Jinnrise</string>
@@ -128,6 +131,9 @@
           <weight>50</weight>
           <bold>false</bold>
          </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">color: rgb(255, 255, 255);</string>
         </property>
        </widget>
       </item>
@@ -446,21 +452,30 @@
                <widget class="QLabel" name="asprevlab">
                 <property name="minimumSize">
                  <size>
-                  <width>200</width>
-                  <height>200</height>
+                  <width>164</width>
+                  <height>105</height>
                  </size>
                 </property>
                 <property name="maximumSize">
                  <size>
-                  <width>200</width>
-                  <height>200</height>
+                  <width>164</width>
+                  <height>105</height>
                  </size>
+                </property>
+                <property name="layoutDirection">
+                 <enum>Qt::LeftToRight</enum>
+                </property>
+                <property name="frameShape">
+                 <enum>QFrame::Box</enum>
                 </property>
                 <property name="text">
                  <string/>
                 </property>
                 <property name="pixmap">
-                 <pixmap>../../../../../Desktop/noPreview.png</pixmap>
+                 <pixmap>S:/intelture/Pipeline/noPreview.png</pixmap>
+                </property>
+                <property name="scaledContents">
+                 <bool>true</bool>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
@@ -471,21 +486,24 @@
                <widget class="QLabel" name="asprolab">
                 <property name="minimumSize">
                  <size>
-                  <width>200</width>
-                  <height>120</height>
+                  <width>164</width>
+                  <height>105</height>
                  </size>
                 </property>
                 <property name="maximumSize">
                  <size>
-                  <width>200</width>
-                  <height>120</height>
+                  <width>164</width>
+                  <height>105</height>
                  </size>
                 </property>
                 <property name="text">
                  <string/>
                 </property>
                 <property name="pixmap">
-                 <pixmap>../../../../../Desktop/noPreviewp.png</pixmap>
+                 <pixmap>S:/intelture/Pipeline/noPreview.png</pixmap>
+                </property>
+                <property name="scaledContents">
+                 <bool>true</bool>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
@@ -656,21 +674,24 @@
                <widget class="QLabel" name="shprevlab">
                 <property name="minimumSize">
                  <size>
-                  <width>200</width>
-                  <height>200</height>
+                  <width>164</width>
+                  <height>105</height>
                  </size>
                 </property>
                 <property name="maximumSize">
                  <size>
-                  <width>200</width>
-                  <height>200</height>
+                  <width>164</width>
+                  <height>105</height>
                  </size>
+                </property>
+                <property name="frameShape">
+                 <enum>QFrame::Box</enum>
                 </property>
                 <property name="text">
                  <string/>
                 </property>
                 <property name="pixmap">
-                 <pixmap>../../../../../Desktop/noPreview.png</pixmap>
+                 <pixmap>S:/intelture/Pipeline/noPreview.png</pixmap>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
@@ -681,21 +702,21 @@
                <widget class="QLabel" name="shprolab">
                 <property name="minimumSize">
                  <size>
-                  <width>200</width>
-                  <height>120</height>
+                  <width>164</width>
+                  <height>105</height>
                  </size>
                 </property>
                 <property name="maximumSize">
                  <size>
-                  <width>200</width>
-                  <height>120</height>
+                  <width>164</width>
+                  <height>105</height>
                  </size>
                 </property>
                 <property name="text">
                  <string/>
                 </property>
                 <property name="pixmap">
-                 <pixmap>../../../../../Desktop/noPreviewp.png</pixmap>
+                 <pixmap>S:/intelture/Pipeline/noPreview.png</pixmap>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>

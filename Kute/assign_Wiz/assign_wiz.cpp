@@ -12,6 +12,7 @@
 #include "QPixmap"
 #include "QDate"
 #include "comboboxdelegate.h"
+#include "coldel.h"
 #include "datedelegate.h"
 
 assign_wiz::assign_wiz(QWidget *parent) :
@@ -114,6 +115,11 @@ void assign_wiz::loadAllTabs()
     ComboBoxDelegate *statdelg = new ComboBoxDelegate(ui->modtabv);
     ui->modtabv->setItemDelegateForColumn(7,statdelg);
 
+    coldel *delg = new coldel(ui->modtabv);
+    ui->modtabv->setItemDelegateForColumn(0,delg);
+    ui->modtabv->setItemDelegateForColumn(1,delg);
+
+
     statdelg->Items.clear();
     statdelg->Items.push_back("Assigned");
     statdelg->Items.push_back("Approved");
@@ -147,12 +153,15 @@ void assign_wiz::loadAllTabs()
     assetr->setHeaderData(7,Qt::Horizontal,tr("Status"));
     assetr->sort(0,Qt::AscendingOrder);
 
+
+
     ComboBoxDelegate *drigers = new ComboBoxDelegate(ui->rigtabv);
     ui->rigtabv->setItemDelegateForColumn(2,drigers);
     ui->rigtabv->setItemDelegateForColumn(5,dated);
     ui->rigtabv->setItemDelegateForColumn(6,dated);
     ui->rigtabv->setItemDelegateForColumn(7,statdelg);
-
+    ui->rigtabv->setItemDelegateForColumn(0,delg);
+    ui->rigtabv->setItemDelegateForColumn(1,delg);
 
     st.exec("Select name from user where dept = 'Rig'");
 
@@ -185,6 +194,8 @@ void assign_wiz::loadAllTabs()
     ui->prevtabv->setItemDelegateForColumn(5,dated);
     ui->prevtabv->setItemDelegateForColumn(6,dated);
     ui->prevtabv->setItemDelegateForColumn(7,statdelg);
+    ui->prevtabv->setItemDelegateForColumn(0,delg);
+    ui->prevtabv->setItemDelegateForColumn(1,delg);
 
     st.exec("Select name from user where dept = 'Anim'");
 
@@ -218,6 +229,8 @@ void assign_wiz::loadAllTabs()
     ui->blktabv->setItemDelegateForColumn(5,dated);
     ui->blktabv->setItemDelegateForColumn(6,dated);
     ui->blktabv->setItemDelegateForColumn(7,statdelg);
+    ui->blktabv->setItemDelegateForColumn(0,delg);
+    ui->blktabv->setItemDelegateForColumn(1,delg);
 
     st.exec("Select name from user where dept = 'Anim'");
 
@@ -251,7 +264,8 @@ void assign_wiz::loadAllTabs()
     ui->anitabv->setItemDelegateForColumn(5,dated);
     ui->anitabv->setItemDelegateForColumn(6,dated);
     ui->anitabv->setItemDelegateForColumn(7,statdelg);
-
+    ui->anitabv->setItemDelegateForColumn(0,delg);
+    ui->anitabv->setItemDelegateForColumn(1,delg);
 
     st.exec("Select name from user where dept = 'Anim'");
 
@@ -284,6 +298,8 @@ void assign_wiz::loadAllTabs()
     ui->lighttabv->setItemDelegateForColumn(5,dated);
     ui->lighttabv->setItemDelegateForColumn(6,dated);
     ui->lighttabv->setItemDelegateForColumn(7,statdelg);
+    ui->lighttabv->setItemDelegateForColumn(0,delg);
+    ui->lighttabv->setItemDelegateForColumn(1,delg);
 
     st.exec("Select name from user where dept = 'Light'");
 
@@ -347,10 +363,10 @@ void assign_wiz::swtDatabase(QString datab)
 
 void assign_wiz::swtBpat()
 {
-    //basepath = "S:/intelture/Pipeline/Sched/datab/";
-    //baseppath = "S:/intelture/Pipeline";
-    basepath = "/Users/sekhar/Github/dbfiles/";
-    baseppath = "/Users/sekhar/Github/Project/";
+    basepath = "S:/intelture/Pipeline/Sched/datab/";
+    baseppath = "S:/intelture/Pipeline";
+    //basepath = "/Users/sekhar/Github/dbfiles/";
+    //baseppath = "/Users/sekhar/Github/Project/";
 }
 
 void assign_wiz::getnasentrs()
@@ -584,8 +600,64 @@ void assign_wiz::on_modtabv_clicked(const QModelIndex &index)
     preloc.exec(as);
     preloc.first();
     QString ppath = preloc.value(0).toString();
+
+    QString defpath = "S:/intelture/Pipeline/noPreview.png";
+
     if (QUrl(ppath).isValid())
     {
-        qDebug() << "Yes";
+        ui->asprevlab->setPixmap(QPixmap(ppath));
+    }
+    else
+    {
+        ui->asprevlab->setPixmap(QPixmap(defpath));
+    }
+}
+
+void assign_wiz::on_rigtabv_clicked(const QModelIndex &index)
+{
+    int row = index.row();
+
+    QString as = "select pvwloc from asset_mas where name = ";
+    as = as + "\'" + index.sibling(row,1).data().toString() + "\'";
+    QSqlQuery preloc(curdatab);
+    preloc.exec(as);
+    preloc.first();
+    QString ppath = preloc.value(0).toString();
+
+    QString defpath = "S:/intelture/Pipeline/noPreview.png";
+
+    if (QUrl(ppath).isValid())
+    {
+        ui->asprevlab->setPixmap(QPixmap(ppath));
+    }
+    else
+    {
+        ui->asprevlab->setPixmap(QPixmap(defpath));
+    }
+
+}
+
+void assign_wiz::on_prevtabv_clicked(const QModelIndex &index)
+{
+    int row = index.row();
+
+    QString as = "select pvwloc from shot_mas where (scene and shot) = ";
+    as = as + "(" + "\'" + index.sibling(row,0).data().toString() + "\'" + "and" + "\'" + index.sibling(row,1).data().toString() + "\'" + ")";
+    QSqlQuery preloc(curdatab);
+    preloc.exec(as);
+    preloc.first();
+    QString ppath = preloc.value(0).toString();
+
+    qDebug() << as;
+
+    QString defpath = "S:/intelture/Pipeline/noPreview.png";
+
+    if (QUrl(ppath).isValid())
+    {
+        ui->shprevlab->setPixmap(QPixmap(ppath));
+    }
+    else
+    {
+        ui->shprevlab->setPixmap(QPixmap(defpath));
     }
 }

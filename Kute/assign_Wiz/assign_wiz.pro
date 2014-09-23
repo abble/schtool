@@ -16,10 +16,12 @@ TEMPLATE = app
 SOURCES += main.cpp\
         assign_wiz.cpp \
     comboboxdelegate.cpp \
-    datedelegate.cpp
+    datedelegate.cpp \
+    coldel.cpp
 
 HEADERS  += assign_wiz.h \
     comboboxdelegate.h \
-    datedelegate.h
+    datedelegate.h \
+    coldel.h
 
 FORMS    += assign_wiz.ui

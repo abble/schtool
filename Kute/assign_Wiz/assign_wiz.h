@@ -15,20 +15,20 @@ class MySubClassedSqlTableModel : public QSqlTableModel
          : QSqlTableModel(parent,db) {;}
          QVariant data ( const QModelIndex & index, int role = Qt::DisplayRole ) const
          {
-            if(role==Qt::BackgroundColorRole && index.column() == 7)
+            if(role==Qt::BackgroundColorRole)
             {
-               const QVariant value(data(index,Qt::DisplayRole));
+               const QVariant value(data(index.sibling(index.row(),7),Qt::DisplayRole));
                if (value.toString()=="Assigned")
                {
-                   return QVariant(QColor(130,230,255,255));
+                   return QVariant(QColor(40,165,215,120));
                }
                else if (value.toString()=="Approved")
                {
-                   return QVariant(QColor(15,100,0,255));
+                   return QVariant(QColor(64,145,35,120));
                }
                else if (value.toString()=="Delay")
                {
-                   return QVariant(QColor(180,0,15,255));
+                   return QVariant(QColor(210,45,65,120));
                }
 
             }
@@ -104,6 +104,10 @@ private slots:
     void on_epcombo_currentIndexChanged(const QString &arg1);
 
     void on_modtabv_clicked(const QModelIndex &index);
+
+    void on_rigtabv_clicked(const QModelIndex &index);
+
+    void on_prevtabv_clicked(const QModelIndex &index);
 
 private:
     Ui::assign_wiz *ui;
