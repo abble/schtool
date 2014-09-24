@@ -4,7 +4,8 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui sql webkit
+QT       += webkitwidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -13,8 +14,14 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        apr_wiz.cpp
+        apr_wiz.cpp \
+    coldel.cpp \
+    comboboxdelegate.cpp \
+    datedelegate.cpp
 
-HEADERS  += apr_wiz.h
+HEADERS  += apr_wiz.h \
+    coldel.h \
+    comboboxdelegate.h \
+    datedelegate.h
 
 FORMS    += apr_wiz.ui

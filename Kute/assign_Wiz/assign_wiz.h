@@ -51,12 +51,12 @@ public:
     QSqlTableModel *shb;
 
     MySubClassedSqlTableModel *assetm;
-    QSqlTableModel *assetr;
+    MySubClassedSqlTableModel *assetr;
 
-    QSqlTableModel *shotp;
-    QSqlTableModel *shotb;
-    QSqlTableModel *shota;
-    QSqlTableModel *shotl;
+    MySubClassedSqlTableModel *shotp;
+    MySubClassedSqlTableModel *shotb;
+    MySubClassedSqlTableModel *shota;
+    MySubClassedSqlTableModel *shotl;
 
 
     void swtDatabase(QString datab);
