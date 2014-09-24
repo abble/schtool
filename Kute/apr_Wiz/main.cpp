@@ -1,0 +1,11 @@
+#include "apr_wiz.h"
+#include <QApplication>
+
+int main(int argc, char *argv[])
+{
+    QApplication a(argc, argv);
+    apr_Wiz w;
+    w.show();
+
+    return a.exec();
+}
