@@ -19,12 +19,15 @@ apr_Wiz::apr_Wiz(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::apr_Wiz)
 {
+
     ui->setupUi(this);
     this->setStyleSheet("background-color: rgb(255, 255, 255);");
     ui->tabv->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->tabv->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
     swtBpat();
     swtProject("Jinnr");
+    wuser = qgetenv("USERNAME");
+    epiprp(wuser);
     currow = 10000;
 }
 
@@ -62,7 +65,6 @@ void apr_Wiz::swtBpat()
 
 void apr_Wiz::swtEpisd(QString epsd)
 {
-
    QString pth;
    episd = epsd;
    pth = basepath + proj + "/";
@@ -156,6 +158,20 @@ void apr_Wiz::epipop()
     ui->epcombo->addItems(epilist);
 }
 
+void apr_Wiz::epiprp(QString tst)
+{
+    QString pt = "select proj from puser where artist = ";
+    pt= pt + '\"' + tst + '\"';
+    QSqlQuery qry(pt);
+    qry.last();
+    ui->procombo->addItem(qry.value("proj").toString());
+    while (qry.previous())
+    {
+    ui->procombo->addItem(qry.value("proj").toString());
+    }
+
+}
+
 void apr_Wiz::on_tabv_clicked(const QModelIndex &index)
 {
     currow = index.row();
@@ -164,7 +180,7 @@ void apr_Wiz::on_tabv_clicked(const QModelIndex &index)
 
     mapper->setCurrentIndex(currow);
 
-    QString selentr = index.sibling(currow,0).data().toString() + " " + index.sibling(currow,1).data().toString();
+    QString selentr = index.sibling(currow,0).data().toString() + ":  " + index.sibling(currow,1).data().toString();
 
     ui->dcuren->setText(selentr);
     ui->lcuren->setText(selentr);

@@ -27,13 +27,17 @@ class MySubClassedSqlTableModel : public QSqlTableModel
                }
                else if (value.toString()=="Delay")
                {
-                   return QVariant(QColor(210,45,65,120));
+                   return QVariant(QColor(255,0,0,120));
                }
                else if (value.toString()=="Rework")
                {
-
                    return QVariant(QColor(255, 254, 199,200));
                }
+               else if (value.toString()=="Publish")
+               {
+                   return QVariant(QColor(255, 127, 0,120));
+               }
+
 
             }
             return QSqlTableModel::data(index,role);
@@ -64,6 +68,7 @@ public:
     void swtassshot(QString but);
     void swtBpat();
     void epipop();
+    void epiprp(QString tst);
     void setPreviewPan();
     void setCurSt();
     void loadAllTabs();
@@ -82,6 +87,7 @@ public:
     QDataWidgetMapper *mapper;
     int currow;
     QModelIndex curindex;
+    QString wuser;
 
 
 private slots:
