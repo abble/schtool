@@ -20,11 +20,12 @@ apr_Wiz::apr_Wiz(QWidget *parent) :
     ui(new Ui::apr_Wiz)
 {
     ui->setupUi(this);
-    this->setStyleSheet("background-color: rgb(0, 53, 118);");
+    this->setStyleSheet("background-color: rgb(255, 255, 255);");
     ui->tabv->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->tabv->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
     swtBpat();
     swtProject("Jinnr");
+    currow = 10000;
 }
 
 apr_Wiz::~apr_Wiz()
@@ -81,16 +82,15 @@ void apr_Wiz::loadAllTabs()
     modgen->setHeaderData(0,Qt::Horizontal,tr("Asset Type"));
     modgen->setHeaderData(1,Qt::Horizontal,tr("Name"));
     modgen->setHeaderData(2,Qt::Horizontal,tr("Artist"));
-    modgen->setHeaderData(5,Qt::Horizontal,tr("Start Date"));
     modgen->setHeaderData(6,Qt::Horizontal,tr("End Date"));
     modgen->setHeaderData(7,Qt::Horizontal,tr("Status"));
     modgen->sort(0,Qt::AscendingOrder);
+
 
     ComboBoxDelegate *dmodelrs = new ComboBoxDelegate(ui->tabv);
     ui->tabv->setItemDelegateForColumn(2,dmodelrs);
 
     datedelegate *dated = new datedelegate(ui->tabv);
-    ui->tabv->setItemDelegateForColumn(5,dated);
     ui->tabv->setItemDelegateForColumn(6,dated);
 
     ComboBoxDelegate *statdelg = new ComboBoxDelegate(ui->tabv);
@@ -99,11 +99,14 @@ void apr_Wiz::loadAllTabs()
     coldel *delg = new coldel(ui->tabv);
     ui->tabv->setItemDelegateForColumn(0,delg);
     ui->tabv->setItemDelegateForColumn(1,delg);
-
+    ui->tabv->setItemDelegateForColumn(2,delg);
+    ui->tabv->setItemDelegateForColumn(3,delg);
+    ui->tabv->setItemDelegateForColumn(7,delg);
 
     statdelg->Items.clear();
     statdelg->Items.push_back("Assigned");
     statdelg->Items.push_back("Approved");
+    statdelg->Items.push_back("Rework");
     statdelg->Items.push_back("Delay");
 
     QSqlQuery st;
@@ -115,11 +118,15 @@ void apr_Wiz::loadAllTabs()
     }
 
     ui->tabv->setModel(modgen);
-    ui->tabv->hideColumn(3);
+   // ui->tabv->hideColumn(3);
     ui->tabv->hideColumn(4);
     ui->tabv->hideColumn(5);
-    ui->tabv->hideColumn(6);
     ui->tabv->show();
+
+    mapper = new QDataWidgetMapper;
+    mapper->setModel(modgen);
+    mapper->addMapping(ui->lcCom, 3);
+    mapper->addMapping(ui->dcCom, 4);
 
 
 }
@@ -151,16 +158,27 @@ void apr_Wiz::epipop()
 
 void apr_Wiz::on_tabv_clicked(const QModelIndex &index)
 {
-    int row = index.row();
+    currow = index.row();
+    curindex = index;
+    //mapper->addMapping(ui->dcCom, 4);
+
+    mapper->setCurrentIndex(currow);
+
+    QString selentr = index.sibling(currow,0).data().toString() + " " + index.sibling(currow,1).data().toString();
+
+    ui->dcuren->setText(selentr);
+    ui->lcuren->setText(selentr);
 
     QString as = "select pvwloc from asset_mas where name = ";
-    as = as + "\'" + index.sibling(row,1).data().toString() + "\'";
+    as = as + "\'" + index.sibling(currow,1).data().toString() + "\'";
     QSqlQuery preloc(curdatab);
     preloc.exec(as);
     preloc.first();
     QString ppath = preloc.value(0).toString();
 
     QString defpath = "S:/intelture/Pipeline/noPreview.png";
+
+  //  ui->detLayout->setStyleSheet("background-color: rgb(50, 155, 255);");
 
     if (QUrl(ppath).isValid())
     {
@@ -169,5 +187,21 @@ void apr_Wiz::on_tabv_clicked(const QModelIndex &index)
     else
     {
         ui->prevlab->setPixmap(QPixmap(defpath));
+    }
+}
+
+void apr_Wiz::on_aprbut_clicked()
+{
+    if (currow != 10000)
+    {
+       modgen->setData(modgen->index(currow,7),"Approved");
+    }
+}
+
+void apr_Wiz::on_rebut_clicked()
+{
+    if (currow != 10000)
+    {
+       modgen->setData(modgen->index(currow,7),"Rework");
     }
 }

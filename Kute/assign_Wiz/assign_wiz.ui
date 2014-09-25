@@ -84,7 +84,7 @@
         </property>
         <property name="font">
          <font>
-          <family>Comic Sans MS</family>
+          <family>Trebuchet MS</family>
           <pointsize>12</pointsize>
           <weight>50</weight>
           <bold>false</bold>
@@ -126,7 +126,7 @@
         </property>
         <property name="font">
          <font>
-          <family>Comic Sans MS</family>
+          <family>Trebuchet MS</family>
           <pointsize>12</pointsize>
           <weight>50</weight>
           <bold>false</bold>
@@ -141,7 +141,7 @@
        <widget class="QLabel" name="datelab">
         <property name="font">
          <font>
-          <family>Comic Sans MS</family>
+          <family>Trebuchet MS</family>
           <pointsize>10</pointsize>
           <weight>75</weight>
           <bold>true</bold>
@@ -299,7 +299,7 @@
          <enum>QFrame::Sunken</enum>
         </property>
         <property name="currentIndex">
-         <number>1</number>
+         <number>0</number>
         </property>
         <widget class="QWidget" name="asPage">
          <layout class="QHBoxLayout" name="horizontalLayout">
@@ -309,7 +309,7 @@
              <widget class="QTabWidget" name="astabwidg">
               <property name="font">
                <font>
-                <family>Comic Sans MS</family>
+                <family>Trebuchet MS</family>
                 <pointsize>10</pointsize>
                 <weight>75</weight>
                 <bold>true</bold>
@@ -525,7 +525,7 @@
              <widget class="QTabWidget" name="shtabwidg">
               <property name="font">
                <font>
-                <family>Comic Sans MS</family>
+                <family>Trebuchet MS</family>
                 <pointsize>10</pointsize>
                 <weight>75</weight>
                 <bold>true</bold>
@@ -744,11 +744,11 @@
      </property>
      <property name="font">
       <font>
-       <family>Comic Sans MS</family>
-       <pointsize>14</pointsize>
-       <weight>50</weight>
+       <family>Trebuchet MS</family>
+       <pointsize>12</pointsize>
+       <weight>75</weight>
        <italic>false</italic>
-       <bold>false</bold>
+       <bold>true</bold>
       </font>
      </property>
      <property name="styleSheet">

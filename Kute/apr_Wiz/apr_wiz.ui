@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>980</width>
-    <height>400</height>
+    <height>451</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -84,8 +84,10 @@
         </property>
         <property name="font">
          <font>
-          <family>Comic Sans MS</family>
+          <family>Trebuchet MS</family>
           <pointsize>12</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
          </font>
         </property>
         <property name="styleSheet">
@@ -124,8 +126,10 @@
         </property>
         <property name="font">
          <font>
-          <family>Comic Sans MS</family>
+          <family>Trebuchet MS</family>
           <pointsize>12</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
          </font>
         </property>
         <property name="styleSheet">
@@ -143,7 +147,7 @@
         </property>
         <property name="font">
          <font>
-          <family>Comic Sans MS</family>
+          <family>Trebuchet MS</family>
           <pointsize>10</pointsize>
           <weight>75</weight>
           <bold>true</bold>
@@ -173,7 +177,7 @@
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_2">
       <property name="spacing">
-       <number>2</number>
+       <number>0</number>
       </property>
       <property name="leftMargin">
        <number>2</number>
@@ -237,13 +241,13 @@
           <widget class="QFrame" name="detLayout">
            <property name="minimumSize">
             <size>
-             <width>420</width>
+             <width>320</width>
              <height>0</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
-             <width>420</width>
+             <width>320</width>
              <height>16777215</height>
             </size>
            </property>
@@ -255,7 +259,7 @@
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_3">
             <property name="spacing">
-             <number>2</number>
+             <number>0</number>
             </property>
             <property name="leftMargin">
              <number>2</number>
@@ -270,28 +274,16 @@
              <number>2</number>
             </property>
             <item>
-             <widget class="QFrame" name="frame_4">
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>40</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>16777215</width>
-                <height>60</height>
-               </size>
-              </property>
+             <widget class="QFrame" name="lLayout">
               <property name="frameShape">
                <enum>QFrame::StyledPanel</enum>
               </property>
               <property name="frameShadow">
                <enum>QFrame::Raised</enum>
               </property>
-              <layout class="QHBoxLayout" name="horizontalLayout_3">
+              <layout class="QHBoxLayout" name="horizontalLayout_8">
                <property name="spacing">
-                <number>2</number>
+                <number>4</number>
                </property>
                <property name="leftMargin">
                 <number>2</number>
@@ -306,62 +298,44 @@
                 <number>2</number>
                </property>
                <item>
-                <widget class="QLabel" name="label_4">
-                 <property name="minimumSize">
-                  <size>
-                   <width>200</width>
-                   <height>30</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>200</width>
-                   <height>30</height>
-                  </size>
+                <widget class="QLabel" name="lcuren">
+                 <property name="font">
+                  <font>
+                   <family>Trebuchet MS</family>
+                   <pointsize>10</pointsize>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
                  </property>
                  <property name="text">
-                  <string>TextLabel</string>
+                  <string/>
                  </property>
                  <property name="alignment">
-                  <set>Qt::AlignCenter</set>
+                  <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
                  </property>
                 </widget>
                </item>
                <item>
-                <widget class="QLabel" name="label_3">
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>30</height>
-                  </size>
-                 </property>
+                <widget class="QLabel" name="lclab">
                  <property name="maximumSize">
                   <size>
                    <width>16777215</width>
-                   <height>30</height>
+                   <height>20</height>
                   </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <family>Trebuchet MS</family>
+                   <pointsize>10</pointsize>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
                  </property>
                  <property name="text">
-                  <string>TextLabel</string>
+                  <string>Lead Notes</string>
                  </property>
                  <property name="alignment">
-                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLineEdit" name="lineEdit">
-                 <property name="minimumSize">
-                  <size>
-                   <width>100</width>
-                   <height>30</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>100</width>
-                   <height>16777215</height>
-                  </size>
+                  <set>Qt::AlignBottom|Qt::AlignRight|Qt::AlignTrailing</set>
                  </property>
                 </widget>
                </item>
@@ -369,7 +343,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QFrame" name="frame">
+             <widget class="QFrame" name="lcLayout">
               <property name="minimumSize">
                <size>
                 <width>0</width>
@@ -405,29 +379,89 @@
                 <number>2</number>
                </property>
                <item>
-                <widget class="QTextEdit" name="textEdit_2"/>
+                <widget class="QPlainTextEdit" name="lcCom">
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgb(255, 255, 255);</string>
+                 </property>
+                </widget>
                </item>
               </layout>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="label">
-              <property name="maximumSize">
-               <size>
-                <width>16777215</width>
-                <height>20</height>
-               </size>
+             <widget class="QFrame" name="dnLayout">
+              <property name="frameShape">
+               <enum>QFrame::StyledPanel</enum>
               </property>
-              <property name="text">
-               <string>Lead Comments</string>
+              <property name="frameShadow">
+               <enum>QFrame::Raised</enum>
               </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
+              <layout class="QHBoxLayout" name="horizontalLayout_3">
+               <property name="spacing">
+                <number>2</number>
+               </property>
+               <property name="leftMargin">
+                <number>2</number>
+               </property>
+               <property name="topMargin">
+                <number>2</number>
+               </property>
+               <property name="rightMargin">
+                <number>2</number>
+               </property>
+               <property name="bottomMargin">
+                <number>2</number>
+               </property>
+               <item>
+                <widget class="QLabel" name="dcuren">
+                 <property name="font">
+                  <font>
+                   <family>Trebuchet MS</family>
+                   <pointsize>10</pointsize>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="dclab">
+                 <property name="maximumSize">
+                  <size>
+                   <width>16777215</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <family>Trebuchet MS</family>
+                   <pointsize>10</pointsize>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>Director Notes</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignBottom|Qt::AlignRight|Qt::AlignTrailing</set>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+              <zorder>dclab</zorder>
+              <zorder>dclab</zorder>
+              <zorder>dcuren</zorder>
              </widget>
             </item>
             <item>
-             <widget class="QFrame" name="frame_2">
+             <widget class="QFrame" name="dcLayout">
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
@@ -457,29 +491,18 @@
                 <number>2</number>
                </property>
                <item>
-                <widget class="QTextEdit" name="textEdit"/>
+                <widget class="QPlainTextEdit" name="dcCom">
+                 <property name="styleSheet">
+                  <string notr="true">
+background-color: rgb(255, 255, 255);</string>
+                 </property>
+                </widget>
                </item>
               </layout>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="label_2">
-              <property name="maximumSize">
-               <size>
-                <width>16777215</width>
-                <height>20</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>Director Comments</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QFrame" name="frame_3">
+             <widget class="QFrame" name="apreLayout">
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
@@ -509,12 +532,23 @@
                 <number>2</number>
                </property>
                <item>
-                <widget class="QPushButton" name="pushButton_3">
+                <widget class="QPushButton" name="aprbut">
                  <property name="minimumSize">
                   <size>
                    <width>0</width>
                    <height>40</height>
                   </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <family>Trebuchet MS</family>
+                   <pointsize>10</pointsize>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgb(64, 145, 35)</string>
                  </property>
                  <property name="text">
                   <string>Approve</string>
@@ -522,12 +556,23 @@
                 </widget>
                </item>
                <item>
-                <widget class="QPushButton" name="pushButton">
+                <widget class="QPushButton" name="rebut">
                  <property name="minimumSize">
                   <size>
                    <width>0</width>
                    <height>40</height>
                   </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <family>Trebuchet MS</family>
+                   <pointsize>10</pointsize>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgb(255, 254, 199)</string>
                  </property>
                  <property name="text">
                   <string>Rework</string>
@@ -553,7 +598,7 @@
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_2">
          <property name="spacing">
-          <number>4</number>
+          <number>2</number>
          </property>
          <property name="leftMargin">
           <number>2</number>
@@ -567,6 +612,37 @@
          <property name="bottomMargin">
           <number>2</number>
          </property>
+         <item>
+          <widget class="QPushButton" name="pushButton">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>38</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>2000</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>Trebuchet MS</family>
+             <pointsize>12</pointsize>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(80, 80, 80);
+color: rgb(255, 255, 255);</string>
+           </property>
+           <property name="text">
+            <string>Video</string>
+           </property>
+          </widget>
+         </item>
          <item>
           <widget class="QLabel" name="prevlab">
            <property name="minimumSize">
@@ -633,12 +709,15 @@
      </property>
      <property name="font">
       <font>
-       <family>Comic Sans MS</family>
-       <pointsize>14</pointsize>
+       <family>Trebuchet MS</family>
+       <pointsize>12</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="styleSheet">
-      <string notr="true">background-color: rgb(80, 80, 80);</string>
+      <string notr="true">background-color: rgb(80, 80, 80);
+color: rgb(255, 255, 255);</string>
      </property>
      <property name="text">
       <string>Jinnrise</string>

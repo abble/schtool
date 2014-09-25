@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QSqlTableModel>
 #include <QNetworkRequest>
+#include <QDataWidgetMapper>
 
 class MySubClassedSqlTableModel : public QSqlTableModel
   {
@@ -27,6 +28,11 @@ class MySubClassedSqlTableModel : public QSqlTableModel
                else if (value.toString()=="Delay")
                {
                    return QVariant(QColor(210,45,65,120));
+               }
+               else if (value.toString()=="Rework")
+               {
+
+                   return QVariant(QColor(255, 254, 199,200));
                }
 
             }
@@ -73,10 +79,17 @@ public:
     QStringList epilist;
     QString entry;
     QString curstate;
+    QDataWidgetMapper *mapper;
+    int currow;
+    QModelIndex curindex;
 
 
 private slots:
     void on_tabv_clicked(const QModelIndex &index);
+
+    void on_aprbut_clicked();
+
+    void on_rebut_clicked();
 
 private:
     Ui::apr_Wiz *ui;
