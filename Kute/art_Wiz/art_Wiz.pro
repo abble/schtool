@@ -4,17 +4,21 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui sql webkit
+QT       += webkitwidgets
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets		
 
 TARGET = art_Wiz
 TEMPLATE = app
 
-
 SOURCES += main.cpp\
-        art_wiz.cpp
+        art_wiz.cpp \
+    coldel.cpp \
+    comboboxdelegate.cpp
 
-HEADERS  += art_wiz.h
+HEADERS  += art_wiz.h \
+    coldel.h \
+    comboboxdelegate.h
 
 FORMS    += art_wiz.ui

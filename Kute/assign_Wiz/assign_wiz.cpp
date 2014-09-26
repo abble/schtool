@@ -121,8 +121,8 @@ void assign_wiz::loadAllTabs()
 
 
     statdelg->Items.clear();
+    statdelg->Items.push_back("None");
     statdelg->Items.push_back("Assigned");
-    statdelg->Items.push_back("Approved");
     statdelg->Items.push_back("Delay");
 
     QSqlQuery st;

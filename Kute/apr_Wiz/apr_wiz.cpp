@@ -106,10 +106,7 @@ void apr_Wiz::loadAllTabs()
     ui->tabv->setItemDelegateForColumn(7,delg);
 
     statdelg->Items.clear();
-    statdelg->Items.push_back("Assigned");
-    statdelg->Items.push_back("Approved");
-    statdelg->Items.push_back("Rework");
-    statdelg->Items.push_back("Delay");
+
 
     QSqlQuery st;
     st.exec("Select name from user where dept = 'Model'");
@@ -123,6 +120,7 @@ void apr_Wiz::loadAllTabs()
    // ui->tabv->hideColumn(3);
     ui->tabv->hideColumn(4);
     ui->tabv->hideColumn(5);
+    //ui->tabv->hideColumn(8);
     ui->tabv->show();
 
     mapper = new QDataWidgetMapper;

@@ -33,7 +33,7 @@ class MySubClassedSqlTableModel : public QSqlTableModel
                {
                    return QVariant(QColor(255, 254, 199,200));
                }
-               else if (value.toString()=="Publish")
+               else if (value.toString()=="Submit")
                {
                    return QVariant(QColor(255, 127, 0,120));
                }
