@@ -12,7 +12,7 @@
 ComboBoxDelegate::ComboBoxDelegate(QObject *parent) :
     QItemDelegate(parent)
 {
-  Items.push_back("None");
+  //Items.push_back();
 }
 
 

@@ -121,16 +121,15 @@ void assign_wiz::loadAllTabs()
 
 
     statdelg->Items.clear();
-    statdelg->Items.push_back("None");
     statdelg->Items.push_back("Assigned");
     statdelg->Items.push_back("Delay");
 
     QSqlQuery st;
-    st.exec("Select name from user where dept = 'Model'");
+    st.exec("Select artist from user where dept = 'model'");
 
     while(st.next())
     {
-        dmodelrs->Items.push_back(st.value(0).toString().toStdString());
+         dmodelrs->Items.push_back(st.value(0).toString().toStdString());
     }
 
     ui->modtabv->setModel(assetm);
@@ -163,7 +162,7 @@ void assign_wiz::loadAllTabs()
     ui->rigtabv->setItemDelegateForColumn(0,delg);
     ui->rigtabv->setItemDelegateForColumn(1,delg);
 
-    st.exec("Select name from user where dept = 'Rig'");
+    st.exec("Select artist from user where dept = 'rig'");
 
     while(st.next())
     {
@@ -197,7 +196,7 @@ void assign_wiz::loadAllTabs()
     ui->prevtabv->setItemDelegateForColumn(0,delg);
     ui->prevtabv->setItemDelegateForColumn(1,delg);
 
-    st.exec("Select name from user where dept = 'Anim'");
+    st.exec("Select artist from user where dept = 'anim'");
 
     while(st.next())
     {
@@ -232,7 +231,7 @@ void assign_wiz::loadAllTabs()
     ui->blktabv->setItemDelegateForColumn(0,delg);
     ui->blktabv->setItemDelegateForColumn(1,delg);
 
-    st.exec("Select name from user where dept = 'Anim'");
+    st.exec("Select artist from user where dept = 'anim'");
 
     while(st.next())
     {
@@ -267,7 +266,7 @@ void assign_wiz::loadAllTabs()
     ui->anitabv->setItemDelegateForColumn(0,delg);
     ui->anitabv->setItemDelegateForColumn(1,delg);
 
-    st.exec("Select name from user where dept = 'Anim'");
+    st.exec("Select artist from user where dept = 'anim'");
 
     while(st.next())
     {
@@ -301,7 +300,7 @@ void assign_wiz::loadAllTabs()
     ui->lighttabv->setItemDelegateForColumn(0,delg);
     ui->lighttabv->setItemDelegateForColumn(1,delg);
 
-    st.exec("Select name from user where dept = 'Light'");
+    st.exec("Select artist from user where dept = 'light'");
 
     while(st.next())
     {
@@ -594,8 +593,8 @@ void assign_wiz::on_modtabv_clicked(const QModelIndex &index)
 {
     int row = index.row();
 
-    QString as = "select pvwloc from asset_mas where name = ";
-    as = as + "\'" + index.sibling(row,1).data().toString() + "\'";
+    QString as = "select pvwloc from asset_mas where type = ";
+    as = as + "\'" + index.sibling(row,0).data().toString() + "\'" + "and name = " +  "\'" + index.sibling(row,1).data().toString() + "\'";
     QSqlQuery preloc(curdatab);
     preloc.exec(as);
     preloc.first();
@@ -617,8 +616,8 @@ void assign_wiz::on_rigtabv_clicked(const QModelIndex &index)
 {
     int row = index.row();
 
-    QString as = "select pvwloc from asset_mas where name = ";
-    as = as + "\'" + index.sibling(row,1).data().toString() + "\'";
+    QString as = "select pvwloc from asset_mas where type = ";
+    as = as + "\'" + index.sibling(row,0).data().toString() + "\'" + "and name = " +  "\'" + index.sibling(row,1).data().toString() + "\'";
     QSqlQuery preloc(curdatab);
     preloc.exec(as);
     preloc.first();
@@ -641,14 +640,12 @@ void assign_wiz::on_prevtabv_clicked(const QModelIndex &index)
 {
     int row = index.row();
 
-    QString as = "select pvwloc from shot_mas where (scene and shot) = ";
-    as = as + "(" + "\'" + index.sibling(row,0).data().toString() + "\'" + "and" + "\'" + index.sibling(row,1).data().toString() + "\'" + ")";
+    QString as = "select pvwloc from shot_mas where scene = ";
+    as = as + "\'" + index.sibling(row,0).data().toString()+ "\'"  + " and shot = " + "\'" + index.sibling(row,1).data().toString() + "\'" ;
     QSqlQuery preloc(curdatab);
     preloc.exec(as);
     preloc.first();
     QString ppath = preloc.value(0).toString();
-
-    qDebug() << as;
 
     QString defpath = "S:/intelture/Pipeline/noPreview.png";
 
