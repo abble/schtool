@@ -35,7 +35,6 @@ void datedelegate::setModelData(QWidget *editor, QAbstractItemModel *model, cons
 {
   QDateEdit *dateBox = static_cast<QDateEdit*>(editor);
   model->setData(index, dateBox->date(), Qt::EditRole);
-
 }
 
 void datedelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &/* index */) const

@@ -1,23 +1,16 @@
 Assign Wiz
 
 Fixes
-	- by default should be assigned
 	- projects all the projects
-
 
 Aprov Wiz
 
 Fixes
 	- only lead projects & current project
-	- Automate delay
-	- apporve only when artist assigned
-	- rework only when submit
 	- video
 
 Art Wiz
 
 Fixes
-	- tabs approved and wip
 	- only artist projects & current project
-	- submit 
 	- video

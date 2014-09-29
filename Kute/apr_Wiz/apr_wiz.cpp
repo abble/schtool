@@ -21,6 +21,7 @@ apr_Wiz::apr_Wiz(QWidget *parent) :
 {
 
     ui->setupUi(this);
+
     this->setStyleSheet("background-color: rgb(255, 255, 255);");
     ui->tabv->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->tabv->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
@@ -29,6 +30,16 @@ apr_Wiz::apr_Wiz(QWidget *parent) :
     wuser = qgetenv("USERNAME");
     epiprp(wuser);
     currow = 10000;
+
+
+    ui->statfilcombo->addItem("All");
+    ui->statfilcombo->addItem("Assigned");
+    ui->statfilcombo->addItem("Submit");
+    ui->statfilcombo->addItem("Approved");
+    ui->statfilcombo->addItem("Rework");
+    ui->statfilcombo->addItem("Delay");
+    curstatfil = "";
+    curartfil = "";
 }
 
 apr_Wiz::~apr_Wiz()
@@ -82,7 +93,7 @@ void apr_Wiz::loadAllTabs()
     modgen->setEditStrategy(QSqlTableModel::OnFieldChange);
     modgen->select();
     modgen->setHeaderData(0,Qt::Horizontal,tr("Asset Type"));
-    modgen->setHeaderData(1,Qt::Horizontal,tr("Name"));
+    modgen->setHeaderData(1,Qt::Horizontal,tr("Artist Name"));
     modgen->setHeaderData(2,Qt::Horizontal,tr("Artist"));
     modgen->setHeaderData(6,Qt::Horizontal,tr("End Date"));
     modgen->setHeaderData(7,Qt::Horizontal,tr("Status"));
@@ -103,23 +114,28 @@ void apr_Wiz::loadAllTabs()
     ui->tabv->setItemDelegateForColumn(1,delg);
     ui->tabv->setItemDelegateForColumn(2,delg);
     ui->tabv->setItemDelegateForColumn(3,delg);
+
     ui->tabv->setItemDelegateForColumn(7,delg);
 
     statdelg->Items.clear();
-
+    ui->artfilcombo->clear();
+    ui->artfilcombo->addItem("All");
 
     QSqlQuery st;
-    st.exec("Select name from user where dept = 'Model'");
-
+    st.exec("Select artist from user where dept = 'model'");
+    mdrs.clear();
     while(st.next())
     {
         dmodelrs->Items.push_back(st.value(0).toString().toStdString());
+        mdrs.append(st.value(0).toString());
     }
+    ui->artfilcombo->addItems(mdrs);
 
     ui->tabv->setModel(modgen);
-   // ui->tabv->hideColumn(3);
+    ui->tabv->hideColumn(3);
     ui->tabv->hideColumn(4);
     ui->tabv->hideColumn(5);
+   // ui->tabv->hideColumn(6);
     //ui->tabv->hideColumn(8);
     ui->tabv->show();
 
@@ -206,16 +222,71 @@ void apr_Wiz::on_tabv_clicked(const QModelIndex &index)
 
 void apr_Wiz::on_aprbut_clicked()
 {
-    if (currow != 10000)
+
+    if (currow != 10000 && modgen->data(modgen->index(currow,2)).toString() != "")
     {
+       modgen->select();
        modgen->setData(modgen->index(currow,7),"Approved");
     }
 }
 
 void apr_Wiz::on_rebut_clicked()
 {
-    if (currow != 10000)
+    if (currow != 10000 && modgen->data(modgen->index(currow,2)).toString() != "")
     {
+       modgen->select();
+       if ( modgen->data(modgen->index(currow,7)).toString() != "Submit" )
        modgen->setData(modgen->index(currow,7),"Rework");
+    }
+}
+
+
+void apr_Wiz::on_artfilcombo_currentIndexChanged(const QString &arg1)
+{
+    if (arg1.toStdString() == "All")
+    {
+        curartfil = "";
+    }
+    else
+    {
+        curartfil = arg1;
+    }
+
+    if (curartfil != "")
+    {
+    modgen->setFilter(QString("status like '%%1%' AND artist like '%%2%' ").arg(curstatfil).arg(curartfil));
+    }
+    else if (curartfil == "")
+    {
+    modgen->setFilter(QString("status like '%%1%'").arg(curstatfil));
+    }
+    else if (curstatfil == "")
+    {
+    modgen->setFilter(QString("status like '%%1%'").arg(curartfil));
+    }
+}
+
+void apr_Wiz::on_statfilcombo_currentIndexChanged(const QString &arg1)
+{
+    if (arg1.toStdString() == "All")
+    {
+        curstatfil = "";
+    }
+    else
+    {
+        curstatfil = arg1;
+    }
+
+    if (curartfil != "")
+    {
+    modgen->setFilter(QString("status like '%%1%' AND artist like '%%2%' ").arg(curstatfil).arg(curartfil));
+    }
+    else if (curartfil == "")
+    {
+    modgen->setFilter(QString("status like '%%1%'").arg(curstatfil));
+    }
+    else if (curstatfil == "")
+    {
+    modgen->setFilter(QString("status like '%%1%'").arg(curartfil));
     }
 }

@@ -41,6 +41,17 @@ assign_wiz::assign_wiz(QWidget *parent) :
     ui->asprevlab->setPixmap(QPixmap("S:/intelture/Pipeline/noPreview.png"));
     ui->shprevlab->setPixmap(QPixmap("S:/intelture/Pipeline/noPreview.png"));
 
+    ui->artfilcombo->addItem("All");
+    ui->statfilcombo->addItem("All");
+    ui->statfilcombo->addItem("Assigned");
+    ui->statfilcombo->addItem("Submit");
+    ui->statfilcombo->addItem("Approved");
+    ui->statfilcombo->addItem("Rework");
+    ui->statfilcombo->addItem("Delay");
+
+    ui->artfilcombo->addItems(mdrs);
+    curstatfil = "";
+    curartfil = "";
     //   setPreviewPan();
 
 }
@@ -98,7 +109,7 @@ void assign_wiz::loadAllTabs()
     assetm->setEditStrategy(QSqlTableModel::OnFieldChange);
     assetm->select();
     assetm->setHeaderData(0,Qt::Horizontal,tr("Asset Type"));
-    assetm->setHeaderData(1,Qt::Horizontal,tr("Name"));
+    assetm->setHeaderData(1,Qt::Horizontal,tr("Asset Name"));
     assetm->setHeaderData(2,Qt::Horizontal,tr("Artist"));
     assetm->setHeaderData(5,Qt::Horizontal,tr("Start Date"));
     assetm->setHeaderData(6,Qt::Horizontal,tr("End Date"));
@@ -118,25 +129,29 @@ void assign_wiz::loadAllTabs()
     coldel *delg = new coldel(ui->modtabv);
     ui->modtabv->setItemDelegateForColumn(0,delg);
     ui->modtabv->setItemDelegateForColumn(1,delg);
+    ui->modtabv->setItemDelegateForColumn(7,delg);
 
 
     statdelg->Items.clear();
+    statdelg->Items.push_back("");
     statdelg->Items.push_back("Assigned");
-    statdelg->Items.push_back("Delay");
 
     QSqlQuery st;
     st.exec("Select artist from user where dept = 'model'");
 
+    mdrs.clear();
+    dmodelrs->Items.push_back("");
     while(st.next())
     {
-         dmodelrs->Items.push_back(st.value(0).toString().toStdString());
+       dmodelrs->Items.push_back(st.value(0).toString().toStdString());
+       mdrs.append(st.value(0).toString());
     }
 
     ui->modtabv->setModel(assetm);
     ui->modtabv->hideColumn(3);
     ui->modtabv->hideColumn(4);
+    ui->modtabv->hideColumn(7);
     ui->modtabv->show();
-
 
     // asset rig
 
@@ -145,7 +160,7 @@ void assign_wiz::loadAllTabs()
     assetr->setEditStrategy(QSqlTableModel::OnFieldChange);
     assetr->select();
     assetr->setHeaderData(0,Qt::Horizontal,tr("Asset Type"));
-    assetr->setHeaderData(1,Qt::Horizontal,tr("Name"));
+    assetr->setHeaderData(1,Qt::Horizontal,tr("Asset Name"));
     assetr->setHeaderData(2,Qt::Horizontal,tr("Artist"));
     assetr->setHeaderData(5,Qt::Horizontal,tr("Start Date"));
     assetr->setHeaderData(6,Qt::Horizontal,tr("End Date"));
@@ -161,17 +176,21 @@ void assign_wiz::loadAllTabs()
     ui->rigtabv->setItemDelegateForColumn(7,statdelg);
     ui->rigtabv->setItemDelegateForColumn(0,delg);
     ui->rigtabv->setItemDelegateForColumn(1,delg);
+    ui->rigtabv->setItemDelegateForColumn(7,delg);
 
     st.exec("Select artist from user where dept = 'rig'");
-
+    rgrs.clear();
+    drigers->Items.push_back("");
     while(st.next())
     {
         drigers->Items.push_back(st.value(0).toString().toStdString());
+        rgrs.append(st.value(0).toString());
     }
 
     ui->rigtabv->setModel(assetr);
     ui->rigtabv->hideColumn(3);
     ui->rigtabv->hideColumn(4);
+    ui->rigtabv->hideColumn(7);
     ui->rigtabv->show();
 
     // shot prev
@@ -195,17 +214,21 @@ void assign_wiz::loadAllTabs()
     ui->prevtabv->setItemDelegateForColumn(7,statdelg);
     ui->prevtabv->setItemDelegateForColumn(0,delg);
     ui->prevtabv->setItemDelegateForColumn(1,delg);
+    ui->prevtabv->setItemDelegateForColumn(7,delg);
 
     st.exec("Select artist from user where dept = 'anim'");
-
+    animrs.clear();
+    dprev->Items.push_back("");
     while(st.next())
     {
         dprev->Items.push_back(st.value(0).toString().toStdString());
+        animrs.append(st.value(0).toString());
     }
 
     ui->prevtabv->setModel(shotp);
     ui->prevtabv->hideColumn(3);
     ui->prevtabv->hideColumn(4);
+    ui->prevtabv->hideColumn(7);
     ui->prevtabv->show();
 
     // shot block
@@ -230,9 +253,11 @@ void assign_wiz::loadAllTabs()
     ui->blktabv->setItemDelegateForColumn(7,statdelg);
     ui->blktabv->setItemDelegateForColumn(0,delg);
     ui->blktabv->setItemDelegateForColumn(1,delg);
+    ui->blktabv->setItemDelegateForColumn(7,delg);
+
 
     st.exec("Select artist from user where dept = 'anim'");
-
+    dblk->Items.push_back("");
     while(st.next())
     {
         dblk->Items.push_back(st.value(0).toString().toStdString());
@@ -242,6 +267,7 @@ void assign_wiz::loadAllTabs()
     ui->blktabv->setModel(shotb);
     ui->blktabv->hideColumn(3);
     ui->blktabv->hideColumn(4);
+    ui->blktabv->hideColumn(7);
     ui->blktabv->show();
 
     // shot anim
@@ -265,9 +291,10 @@ void assign_wiz::loadAllTabs()
     ui->anitabv->setItemDelegateForColumn(7,statdelg);
     ui->anitabv->setItemDelegateForColumn(0,delg);
     ui->anitabv->setItemDelegateForColumn(1,delg);
+    ui->anitabv->setItemDelegateForColumn(7,delg);
 
     st.exec("Select artist from user where dept = 'anim'");
-
+    danim->Items.push_back("");
     while(st.next())
     {
         danim->Items.push_back(st.value(0).toString().toStdString());
@@ -276,6 +303,7 @@ void assign_wiz::loadAllTabs()
     ui->anitabv->setModel(shota);
     ui->anitabv->hideColumn(3);
     ui->anitabv->hideColumn(4);
+    ui->anitabv->hideColumn(7);
     ui->anitabv->show();
 
     // shot light
@@ -299,17 +327,22 @@ void assign_wiz::loadAllTabs()
     ui->lighttabv->setItemDelegateForColumn(7,statdelg);
     ui->lighttabv->setItemDelegateForColumn(0,delg);
     ui->lighttabv->setItemDelegateForColumn(1,delg);
+    ui->lighttabv->setItemDelegateForColumn(7,delg);
 
     st.exec("Select artist from user where dept = 'light'");
-
+    ligrs.clear();
+    dlight->Items.push_back("");
     while(st.next())
     {
         dlight->Items.push_back(st.value(0).toString().toStdString());
+        ligrs.append(st.value(0).toString());
+
     }
 
     ui->lighttabv->setModel(shotl);
     ui->lighttabv->hideColumn(3);
     ui->lighttabv->hideColumn(4);
+    ui->lighttabv->hideColumn(7);
     ui->lighttabv->show();
 
 }
@@ -504,14 +537,20 @@ void assign_wiz::on_asbut_clicked()
     ui->asbut->setChecked(true);
     ui->shbut->setChecked(false);
     ui->stackedWidget->setCurrentIndex(0);
+    ui->artfilcombo->setCurrentIndex(0);
+    ui->statfilcombo->setCurrentIndex(0);
+    ui->artfilcombo->clear();
+    ui->artfilcombo->addItem("All");
     asbut = "Assets";
     if (ui->astabwidg->currentIndex() == 0)
     {
     tabbut = "Model";
+    ui->artfilcombo->addItems(mdrs);
     }
     else
     {
     tabbut = "Rig";
+    ui->artfilcombo->addItems(rgrs);
     }
     this->setStyleSheet("background-color: rgb(0, 53, 118);");
     setCurSt();
@@ -522,22 +561,30 @@ void assign_wiz::on_shbut_clicked()
     ui->asbut->setChecked(false);
     ui->shbut->setChecked(true);
     ui->stackedWidget->setCurrentIndex(1);
+    ui->artfilcombo->setCurrentIndex(0);
+    ui->statfilcombo->setCurrentIndex(0);
+    ui->artfilcombo->clear();
+    ui->artfilcombo->addItem("All");
     asbut = "Shots";
     if (ui->shtabwidg->currentIndex() == 0)
     {
     tabbut = "Previs";
+    ui->artfilcombo->addItems(animrs);
     }
     else if (ui->shtabwidg->currentIndex() == 1)
     {
     tabbut = "Blocking";
+    ui->artfilcombo->addItems(animrs);
     }
     else if (ui->shtabwidg->currentIndex() == 2)
     {
     tabbut = "Animation";
+    ui->artfilcombo->addItems(animrs);
     }
     else
     {
     tabbut = "Lighting"    ;
+    ui->artfilcombo->addItems(ligrs);
     }
     this->setStyleSheet("background-color: rgb(0, 58, 35);");
     setCurSt();
@@ -545,39 +592,65 @@ void assign_wiz::on_shbut_clicked()
 
 void assign_wiz::on_astabwidg_currentChanged(int index)
 {
+
+    ui->artfilcombo->clear();
+    ui->artfilcombo->addItem("All");
+    ui->artfilcombo->setCurrentIndex(0);
+    ui->statfilcombo->setCurrentIndex(0);
     if (index == 0)
     {
         tabbut = "Model";
+        ui->artfilcombo->addItems(mdrs);
         setCurSt();
+        assetm->setFilter("");
+
     }
     else
     {
         tabbut = "Rig";
+        ui->artfilcombo->addItems(rgrs);
         setCurSt();
+        assetr->setFilter("");
+
     }
 }
 
 void assign_wiz::on_shtabwidg_currentChanged(int index)
 {
+
+    ui->artfilcombo->clear();
+    ui->artfilcombo->addItem("All");
+    ui->artfilcombo->setCurrentIndex(0);
+    ui->statfilcombo->setCurrentIndex(0);
     if (index == 0)
     {
         tabbut = "Previs";
+        ui->artfilcombo->addItems(animrs);
         setCurSt();
+        shotp->setFilter("");
+
     }
     else if (index == 1)
     {
         tabbut = "Blocking";
+        ui->artfilcombo->addItems(animrs);
         setCurSt();
+        shotb->setFilter("");
+
     }
     else if (index == 2)
     {
         tabbut = "Animation";
+        ui->artfilcombo->addItems(animrs);
         setCurSt();
+        shota->setFilter("");
     }
     else if (index == 3)
     {
         tabbut = "Lighting";
+        ui->artfilcombo->addItems(ligrs);
         setCurSt();
+        shotl->setFilter("");
     }
 
 }
@@ -657,4 +730,261 @@ void assign_wiz::on_prevtabv_clicked(const QModelIndex &index)
     {
         ui->shprevlab->setPixmap(QPixmap(defpath));
     }
+}
+
+
+void assign_wiz::on_statfilcombo_currentIndexChanged(const QString &arg1)
+{
+   if (arg1.toStdString() == "All")
+   {
+       curstatfil = "";
+   }
+   else
+   {
+       curstatfil = arg1;
+   }
+
+   if (tabbut == "Model")
+   {
+       if (curartfil != "" && curstatfil != "")
+       {
+       assetm->setFilter(QString("status like '%%1%' AND artist like '%%2%' ").arg(curstatfil).arg(curartfil));
+       }
+       else if (curartfil == "" && curstatfil != "")
+       {
+       assetm->setFilter(QString("status like '%%1%'").arg(curstatfil));
+       }
+       else if (curstatfil == "" && curartfil != "")
+       {    
+       assetm->setFilter(QString("artist like '%%1%'").arg(curartfil));
+       }
+       else
+       {
+       assetm->setFilter("");
+       }
+   }
+   else if (tabbut == "Rig")
+   {
+       if (curartfil != "" && curstatfil != "")
+       {
+       assetr->setFilter(QString("status like '%%1%' AND artist like '%%2%' ").arg(curstatfil).arg(curartfil));
+       }
+       else if (curartfil == "" && curstatfil != "")
+       {
+       assetr->setFilter(QString("status like '%%1%'").arg(curstatfil));
+       }
+       else if (curstatfil == "" && curartfil != "")
+       {
+       assetr->setFilter(QString("artist like '%%1%'").arg(curartfil));
+       }
+       else
+       {
+       assetr->setFilter("");
+       }
+   }
+   else if (tabbut == "Previs")
+   {
+       if (curartfil != "" && curstatfil != "")
+       {
+       shotp->setFilter(QString("status like '%%1%' AND artist like '%%2%' ").arg(curstatfil).arg(curartfil));
+       }
+       else if (curartfil == "" && curstatfil != "")
+       {
+       shotp->setFilter(QString("status like '%%1%'").arg(curstatfil));
+       }
+       else if (curstatfil == "" && curartfil != "")
+       {
+       shotp->setFilter(QString("artist like '%%1%'").arg(curartfil));
+       }
+       else
+       {
+       shotp->setFilter("");
+       }
+   }
+   else if (tabbut == "Blocking")
+   {
+       if (curartfil != "" && curstatfil != "")
+       {
+       shotb->setFilter(QString("status like '%%1%' AND artist like '%%2%' ").arg(curstatfil).arg(curartfil));
+       }
+       else if (curartfil == "" && curstatfil != "")
+       {
+       shotb->setFilter(QString("status like '%%1%'").arg(curstatfil));
+       }
+       else if (curstatfil == "" && curartfil != "")
+       {
+       shotb->setFilter(QString("artist like '%%1%'").arg(curartfil));
+       }
+       else
+       {
+       shotb->setFilter("");
+       }
+   }
+   else if (tabbut == "Animation")
+   {
+       if (curartfil != "" && curstatfil != "")
+       {
+       shota->setFilter(QString("status like '%%1%' AND artist like '%%2%' ").arg(curstatfil).arg(curartfil));
+       }
+       else if (curartfil == "" && curstatfil != "")
+       {
+       shota->setFilter(QString("status like '%%1%'").arg(curstatfil));
+       }
+       else if (curstatfil == "" && curartfil != "")
+       {
+       shota->setFilter(QString("artist like '%%1%'").arg(curartfil));
+       }
+       else
+       {
+       shota->setFilter("");
+       }
+   }
+   else if (tabbut == "Lighting")
+   {
+       if (curartfil != "" && curstatfil != "")
+       {
+       shotl->setFilter(QString("status like '%%1%' AND artist like '%%2%' ").arg(curstatfil).arg(curartfil));
+       }
+       else if (curartfil == "" && curstatfil != "")
+       {
+       shotl->setFilter(QString("status like '%%1%'").arg(curstatfil));
+       }
+       else if (curstatfil == "" && curartfil != "")
+       {
+       shotl->setFilter(QString("artist like '%%1%'").arg(curartfil));
+       }
+       else
+       {
+       shotl->setFilter("");
+       }
+   }
+
+}
+
+void assign_wiz::on_artfilcombo_currentIndexChanged(const QString &arg1)
+{
+    if (arg1.toStdString() == "All")
+    {
+        curartfil = "";
+    }
+    else
+    {
+        curartfil = arg1;
+    }
+
+    if (tabbut == "Model")
+    {
+        if (curartfil != "" && curstatfil != "")
+        {
+        assetm->setFilter(QString("status like '%%1%' AND artist like '%%2%' ").arg(curstatfil).arg(curartfil));
+        }
+        else if (curartfil == "" && curstatfil != "")
+        {
+        assetm->setFilter(QString("status like '%%1%'").arg(curstatfil));
+        }
+        else if (curstatfil == "" && curartfil != "")
+        {
+        assetm->setFilter(QString("artist like '%%1%'").arg(curartfil));
+        }
+        else
+        {
+        assetm->setFilter("");
+        }
+    }
+    else if (tabbut == "Rig")
+    {
+        if (curartfil != "" && curstatfil != "")
+        {
+        assetr->setFilter(QString("status like '%%1%' AND artist like '%%2%' ").arg(curstatfil).arg(curartfil));
+        }
+        else if (curartfil == "" && curstatfil != "")
+        {
+        assetr->setFilter(QString("status like '%%1%'").arg(curstatfil));
+        }
+        else if (curstatfil == "" && curartfil != "")
+        {
+        assetr->setFilter(QString("artist like '%%1%'").arg(curartfil));
+        }
+        else
+        {
+        assetr->setFilter("");
+        }
+    }
+    else if (tabbut == "Previs")
+    {
+        if (curartfil != "" && curstatfil != "")
+        {
+        shotp->setFilter(QString("status like '%%1%' AND artist like '%%2%' ").arg(curstatfil).arg(curartfil));
+        }
+        else if (curartfil == "" && curstatfil != "")
+        {
+        shotp->setFilter(QString("status like '%%1%'").arg(curstatfil));
+        }
+        else if (curstatfil == "" && curartfil != "")
+        {
+        shotp->setFilter(QString("artist like '%%1%'").arg(curartfil));
+        }
+        else
+        {
+        shotp->setFilter("");
+        }
+    }
+    else if (tabbut == "Blocking")
+    {
+        if (curartfil != "" && curstatfil != "")
+        {
+        shotb->setFilter(QString("status like '%%1%' AND artist like '%%2%' ").arg(curstatfil).arg(curartfil));
+        }
+        else if (curartfil == "" && curstatfil != "")
+        {
+        shotb->setFilter(QString("status like '%%1%'").arg(curstatfil));
+        }
+        else if (curstatfil == "" && curartfil != "")
+        {
+        shotb->setFilter(QString("artist like '%%1%'").arg(curartfil));
+        }
+        else
+        {
+        shotb->setFilter("");
+        }
+    }
+    else if (tabbut == "Animation")
+    {
+        if (curartfil != "" && curstatfil != "")
+        {
+        shota->setFilter(QString("status like '%%1%' AND artist like '%%2%' ").arg(curstatfil).arg(curartfil));
+        }
+        else if (curartfil == "" && curstatfil != "")
+        {
+        shota->setFilter(QString("status like '%%1%'").arg(curstatfil));
+        }
+        else if (curstatfil == "" && curartfil != "")
+        {
+        shota->setFilter(QString("artist like '%%1%'").arg(curartfil));
+        }
+        else
+        {
+        shota->setFilter("");
+        }
+    }
+    else if (tabbut == "Lighting")
+    {
+        if (curartfil != "" && curstatfil != "")
+        {
+        shotl->setFilter(QString("status like '%%1%' AND artist like '%%2%' ").arg(curstatfil).arg(curartfil));
+        }
+        else if (curartfil == "" && curstatfil != "")
+        {
+        shotl->setFilter(QString("status like '%%1%'").arg(curstatfil));
+        }
+        else if (curstatfil == "" && curartfil != "")
+        {
+        shotl->setFilter(QString("artist like '%%1%'").arg(curartfil));
+        }
+        else
+        {
+        shotl->setFilter("");
+        }
+    }
+
 }

@@ -94,6 +94,8 @@ private slots:
     void on_tabv_clicked(const QModelIndex &index);
 
 
+    void on_subbut_clicked();
+
 private:
     Ui::art_Wiz *ui;
 };

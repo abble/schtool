@@ -29,6 +29,7 @@ art_Wiz::art_Wiz(QWidget *parent) :
     wuser = qgetenv("USERNAME");
     epiprp(wuser);
     currow = 10000;
+    ui->statfilcombo->addItem("All");
 }
 
 art_Wiz::~art_Wiz()
@@ -82,7 +83,7 @@ void art_Wiz::loadAllTabs()
     modgen->setEditStrategy(QSqlTableModel::OnRowChange);
     modgen->select();
     modgen->setHeaderData(0,Qt::Horizontal,tr("Asset Type"));
-    modgen->setHeaderData(1,Qt::Horizontal,tr("Name"));
+    modgen->setHeaderData(1,Qt::Horizontal,tr("Asset Name"));
     modgen->setHeaderData(2,Qt::Horizontal,tr("Artist"));
     modgen->setHeaderData(6,Qt::Horizontal,tr("End Date"));
     modgen->setHeaderData(7,Qt::Horizontal,tr("Status"));
@@ -100,6 +101,8 @@ void art_Wiz::loadAllTabs()
     ui->tabv->setItemDelegateForColumn(1,delg);
     ui->tabv->setItemDelegateForColumn(2,delg);
     ui->tabv->setItemDelegateForColumn(3,delg);
+    ui->tabv->setItemDelegateForColumn(4,delg);
+    ui->tabv->setItemDelegateForColumn(5,delg);
     ui->tabv->setItemDelegateForColumn(6,delg);
     ui->tabv->setItemDelegateForColumn(7,delg);
 
@@ -194,7 +197,7 @@ void art_Wiz::on_tabv_clicked(const QModelIndex &index)
 
     QString defpath = "S:/intelture/Pipeline/noPreview.png";
 
-    qDebug() << index.sibling(currow,7).data().toString();
+
     if (index.sibling(currow,7).data().toString() != "Submit" && index.sibling(currow,7).data().toString() != "Approved")
     {
         ui->subbut->show();
@@ -217,4 +220,12 @@ void art_Wiz::on_tabv_clicked(const QModelIndex &index)
         ui->prevlab->setPixmap(QPixmap(defpath));
     }
 
+}
+
+void art_Wiz::on_subbut_clicked()
+{
+    if (currow != 10000 && modgen->data(modgen->index(currow,2)).toString() != "Approved")
+    {
+    modgen->setData(modgen->index(currow,7),"Submit");
+    }
 }

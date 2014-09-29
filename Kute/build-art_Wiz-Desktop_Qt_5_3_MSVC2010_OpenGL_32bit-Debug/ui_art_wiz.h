@@ -34,6 +34,8 @@ public:
     QHBoxLayout *horizontalLayout;
     QComboBox *procombo;
     QComboBox *epcombo;
+    QLabel *label;
+    QComboBox *statfilcombo;
     QLabel *datelab;
     QFrame *mainLayout;
     QHBoxLayout *horizontalLayout_2;
@@ -111,14 +113,32 @@ public:
 
         horizontalLayout->addWidget(epcombo);
 
-        datelab = new QLabel(epdateLayout);
-        datelab->setObjectName(QStringLiteral("datelab"));
-        datelab->setMinimumSize(QSize(0, 40));
+        label = new QLabel(epdateLayout);
+        label->setObjectName(QStringLiteral("label"));
+        label->setMaximumSize(QSize(120, 40));
         QFont font1;
         font1.setFamily(QStringLiteral("Trebuchet MS"));
         font1.setPointSize(10);
         font1.setBold(true);
         font1.setWeight(75);
+        label->setFont(font1);
+        label->setStyleSheet(QStringLiteral("color: rgb(255, 255, 255);"));
+        label->setAlignment(Qt::AlignCenter);
+
+        horizontalLayout->addWidget(label);
+
+        statfilcombo = new QComboBox(epdateLayout);
+        statfilcombo->setObjectName(QStringLiteral("statfilcombo"));
+        statfilcombo->setMinimumSize(QSize(60, 40));
+        statfilcombo->setMaximumSize(QSize(120, 40));
+        statfilcombo->setFont(font1);
+        statfilcombo->setStyleSheet(QStringLiteral("color: rgb(255, 255, 255);"));
+
+        horizontalLayout->addWidget(statfilcombo);
+
+        datelab = new QLabel(epdateLayout);
+        datelab->setObjectName(QStringLiteral("datelab"));
+        datelab->setMinimumSize(QSize(0, 40));
         datelab->setFont(font1);
         datelab->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
 
@@ -357,6 +377,7 @@ public:
     void retranslateUi(QWidget *art_Wiz)
     {
         art_Wiz->setWindowTitle(QApplication::translate("art_Wiz", "art_Wiz", 0));
+        label->setText(QApplication::translate("art_Wiz", "Status", 0));
         datelab->setText(QApplication::translate("art_Wiz", "24/9/2014", 0));
         subbut->setText(QApplication::translate("art_Wiz", "Submit", 0));
         lcuren->setText(QString());

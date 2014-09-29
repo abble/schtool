@@ -17,19 +17,27 @@ class MySubClassedSqlTableModel : public QSqlTableModel
          {
             if(role==Qt::BackgroundColorRole)
             {
-               const QVariant value(data(index.sibling(index.row(),7),Qt::DisplayRole));
-               if (value.toString()=="Assigned")
-               {
-                   return QVariant(QColor(40,165,215,120));
-               }
-               else if (value.toString()=="Approved")
-               {
-                   return QVariant(QColor(64,145,35,120));
-               }
-               else if (value.toString()=="Delay")
-               {
-                   return QVariant(QColor(210,45,65,120));
-               }
+                const QVariant value(data(index.sibling(index.row(),7),Qt::DisplayRole));
+                if (value.toString()=="Assigned")
+                {
+                    return QVariant(QColor(40,165,215,120));
+                }
+                else if (value.toString()=="Approved")
+                {
+                    return QVariant(QColor(64,145,35,120));
+                }
+                else if (value.toString()=="Delay")
+                {
+                    return QVariant(QColor(255,0,0,120));
+                }
+                else if (value.toString()=="Rework")
+                {
+                    return QVariant(QColor(255, 254, 199,200));
+                }
+                else if (value.toString()=="Submit")
+                {
+                    return QVariant(QColor(255, 127, 0,120));
+                }
 
             }
             return QSqlTableModel::data(index,role);
@@ -89,6 +97,10 @@ public:
     QString asbut;
     QString tabbut;
     QString curstate;
+    QModelIndex curModel;
+    QStringList mdrs,rgrs,animrs,ligrs;
+    QString curartfil,curstatfil;
+
 
 private slots:
     //void on_tableView_clicked(const QModelIndex &index);
@@ -108,6 +120,10 @@ private slots:
     void on_rigtabv_clicked(const QModelIndex &index);
 
     void on_prevtabv_clicked(const QModelIndex &index);
+
+    void on_statfilcombo_currentIndexChanged(const QString &arg1);
+
+    void on_artfilcombo_currentIndexChanged(const QString &arg1);
 
 private:
     Ui::assign_wiz *ui;

@@ -35,6 +35,10 @@ public:
     QHBoxLayout *horizontalLayout_2;
     QComboBox *procombo;
     QComboBox *epcombo;
+    QLabel *label;
+    QComboBox *artfilcombo;
+    QLabel *label_2;
+    QComboBox *statfilcombo;
     QLabel *datelab;
     QFrame *asshotbutLayout;
     QHBoxLayout *horizontalLayout_4;
@@ -130,13 +134,47 @@ public:
 
         horizontalLayout_2->addWidget(epcombo);
 
-        datelab = new QLabel(epdateLayout);
-        datelab->setObjectName(QStringLiteral("datelab"));
+        label = new QLabel(epdateLayout);
+        label->setObjectName(QStringLiteral("label"));
         QFont font1;
         font1.setFamily(QStringLiteral("Trebuchet MS"));
         font1.setPointSize(10);
         font1.setBold(true);
         font1.setWeight(75);
+        label->setFont(font1);
+        label->setStyleSheet(QStringLiteral("color: rgb(255, 255, 255);"));
+        label->setAlignment(Qt::AlignCenter);
+
+        horizontalLayout_2->addWidget(label);
+
+        artfilcombo = new QComboBox(epdateLayout);
+        artfilcombo->setObjectName(QStringLiteral("artfilcombo"));
+        artfilcombo->setMinimumSize(QSize(60, 40));
+        artfilcombo->setMaximumSize(QSize(120, 40));
+        artfilcombo->setFont(font1);
+        artfilcombo->setStyleSheet(QStringLiteral("color: rgb(255, 255, 255);"));
+
+        horizontalLayout_2->addWidget(artfilcombo);
+
+        label_2 = new QLabel(epdateLayout);
+        label_2->setObjectName(QStringLiteral("label_2"));
+        label_2->setFont(font1);
+        label_2->setStyleSheet(QStringLiteral("color: rgb(255, 255, 255);"));
+        label_2->setAlignment(Qt::AlignCenter);
+
+        horizontalLayout_2->addWidget(label_2);
+
+        statfilcombo = new QComboBox(epdateLayout);
+        statfilcombo->setObjectName(QStringLiteral("statfilcombo"));
+        statfilcombo->setMinimumSize(QSize(60, 40));
+        statfilcombo->setMaximumSize(QSize(120, 40));
+        statfilcombo->setFont(font1);
+        statfilcombo->setStyleSheet(QStringLiteral("color: rgb(255, 255, 255);"));
+
+        horizontalLayout_2->addWidget(statfilcombo);
+
+        datelab = new QLabel(epdateLayout);
+        datelab->setObjectName(QStringLiteral("datelab"));
         datelab->setFont(font1);
         datelab->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
 
@@ -505,6 +543,8 @@ public:
          << QApplication::translate("assign_wiz", "Megabear", 0)
          << QApplication::translate("assign_wiz", "Maskmaster2", 0)
         );
+        label->setText(QApplication::translate("assign_wiz", "Artist", 0));
+        label_2->setText(QApplication::translate("assign_wiz", "Status", 0));
         datelab->setText(QApplication::translate("assign_wiz", "19/09/2014", 0));
         asbut->setText(QApplication::translate("assign_wiz", "Assets", 0));
         shbut->setText(QApplication::translate("assign_wiz", "Shots", 0));

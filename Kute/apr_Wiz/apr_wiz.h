@@ -88,6 +88,8 @@ public:
     int currow;
     QModelIndex curindex;
     QString wuser;
+    QString curartfil,curstatfil;
+    QStringList mdrs;
 
 
 private slots:
@@ -96,6 +98,10 @@ private slots:
     void on_aprbut_clicked();
 
     void on_rebut_clicked();
+
+    void on_artfilcombo_currentIndexChanged(const QString &arg1);
+
+    void on_statfilcombo_currentIndexChanged(const QString &arg1);
 
 private:
     Ui::apr_Wiz *ui;
