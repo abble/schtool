@@ -87,6 +87,7 @@ public:
     QDataWidgetMapper *mapper;
     int currow;
     QModelIndex curindex;
+    QString curartfil,curstatfil;
     QString wuser;
 
 
@@ -95,6 +96,10 @@ private slots:
 
 
     void on_subbut_clicked();
+
+    void on_statfilcombo_currentIndexChanged(const QString &arg1);
+
+    void on_videobut_clicked();
 
 private:
     Ui::art_Wiz *ui;

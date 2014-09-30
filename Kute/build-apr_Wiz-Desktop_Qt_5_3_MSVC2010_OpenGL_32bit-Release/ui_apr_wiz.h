@@ -34,9 +34,9 @@ public:
     QHBoxLayout *horizontalLayout;
     QComboBox *procombo;
     QComboBox *epcombo;
-    QLabel *label;
+    QLabel *artlab;
     QComboBox *artfilcombo;
-    QLabel *label_2;
+    QLabel *statlab;
     QComboBox *statfilcombo;
     QLabel *datelab;
     QFrame *mainLayout;
@@ -66,7 +66,8 @@ public:
     QPushButton *rebut;
     QFrame *prevLayout;
     QVBoxLayout *verticalLayout_2;
-    QPushButton *pushButton;
+    QLabel *enddtlab;
+    QPushButton *vidbut;
     QLabel *prevlab;
     QLabel *prolab;
     QLabel *curstate;
@@ -116,18 +117,18 @@ public:
 
         horizontalLayout->addWidget(epcombo);
 
-        label = new QLabel(epdateLayout);
-        label->setObjectName(QStringLiteral("label"));
+        artlab = new QLabel(epdateLayout);
+        artlab->setObjectName(QStringLiteral("artlab"));
         QFont font1;
         font1.setFamily(QStringLiteral("Trebuchet MS"));
         font1.setPointSize(10);
         font1.setBold(true);
         font1.setWeight(75);
-        label->setFont(font1);
-        label->setStyleSheet(QStringLiteral("color: rgb(255, 255, 255);"));
-        label->setAlignment(Qt::AlignCenter);
+        artlab->setFont(font1);
+        artlab->setStyleSheet(QStringLiteral("color: rgb(255, 255, 255);"));
+        artlab->setAlignment(Qt::AlignCenter);
 
-        horizontalLayout->addWidget(label);
+        horizontalLayout->addWidget(artlab);
 
         artfilcombo = new QComboBox(epdateLayout);
         artfilcombo->setObjectName(QStringLiteral("artfilcombo"));
@@ -138,13 +139,13 @@ public:
 
         horizontalLayout->addWidget(artfilcombo);
 
-        label_2 = new QLabel(epdateLayout);
-        label_2->setObjectName(QStringLiteral("label_2"));
-        label_2->setFont(font1);
-        label_2->setStyleSheet(QStringLiteral("color: rgb(255, 255, 255);"));
-        label_2->setAlignment(Qt::AlignCenter);
+        statlab = new QLabel(epdateLayout);
+        statlab->setObjectName(QStringLiteral("statlab"));
+        statlab->setFont(font1);
+        statlab->setStyleSheet(QStringLiteral("color: rgb(255, 255, 255);"));
+        statlab->setAlignment(Qt::AlignCenter);
 
-        horizontalLayout->addWidget(label_2);
+        horizontalLayout->addWidget(statlab);
 
         statfilcombo = new QComboBox(epdateLayout);
         statfilcombo->setObjectName(QStringLiteral("statfilcombo"));
@@ -347,15 +348,24 @@ public:
         verticalLayout_2->setContentsMargins(11, 11, 11, 11);
         verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
         verticalLayout_2->setContentsMargins(2, 2, 2, 2);
-        pushButton = new QPushButton(prevLayout);
-        pushButton->setObjectName(QStringLiteral("pushButton"));
-        pushButton->setMinimumSize(QSize(0, 38));
-        pushButton->setMaximumSize(QSize(2000, 40));
-        pushButton->setFont(font);
-        pushButton->setStyleSheet(QLatin1String("background-color: rgb(80, 80, 80);\n"
+        enddtlab = new QLabel(prevLayout);
+        enddtlab->setObjectName(QStringLiteral("enddtlab"));
+        enddtlab->setMinimumSize(QSize(0, 40));
+        enddtlab->setMaximumSize(QSize(16777215, 40));
+        enddtlab->setFont(font1);
+        enddtlab->setAlignment(Qt::AlignCenter);
+
+        verticalLayout_2->addWidget(enddtlab);
+
+        vidbut = new QPushButton(prevLayout);
+        vidbut->setObjectName(QStringLiteral("vidbut"));
+        vidbut->setMinimumSize(QSize(0, 38));
+        vidbut->setMaximumSize(QSize(2000, 40));
+        vidbut->setFont(font);
+        vidbut->setStyleSheet(QLatin1String("background-color: rgb(80, 80, 80);\n"
 "color: rgb(255, 255, 255);"));
 
-        verticalLayout_2->addWidget(pushButton);
+        verticalLayout_2->addWidget(vidbut);
 
         prevlab = new QLabel(prevLayout);
         prevlab->setObjectName(QStringLiteral("prevlab"));
@@ -403,8 +413,8 @@ public:
     void retranslateUi(QWidget *apr_Wiz)
     {
         apr_Wiz->setWindowTitle(QApplication::translate("apr_Wiz", "apr_Wiz", 0));
-        label->setText(QApplication::translate("apr_Wiz", "Artist", 0));
-        label_2->setText(QApplication::translate("apr_Wiz", "Status", 0));
+        artlab->setText(QApplication::translate("apr_Wiz", "Artist", 0));
+        statlab->setText(QApplication::translate("apr_Wiz", "Status", 0));
         datelab->setText(QApplication::translate("apr_Wiz", "24/9/2014", 0));
         lcuren->setText(QString());
         lclab->setText(QApplication::translate("apr_Wiz", "Lead Notes", 0));
@@ -412,7 +422,8 @@ public:
         dclab->setText(QApplication::translate("apr_Wiz", "Director Notes", 0));
         aprbut->setText(QApplication::translate("apr_Wiz", "Approve", 0));
         rebut->setText(QApplication::translate("apr_Wiz", "Rework", 0));
-        pushButton->setText(QApplication::translate("apr_Wiz", "Video", 0));
+        enddtlab->setText(QApplication::translate("apr_Wiz", "End Date", 0));
+        vidbut->setText(QApplication::translate("apr_Wiz", "Video", 0));
         prevlab->setText(QString());
         prolab->setText(QString());
         curstate->setText(QApplication::translate("apr_Wiz", "Jinnrise", 0));

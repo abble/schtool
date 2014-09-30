@@ -103,6 +103,9 @@ private slots:
 
     void on_statfilcombo_currentIndexChanged(const QString &arg1);
 
+
+    void on_vidbut_clicked();
+
 private:
     Ui::apr_Wiz *ui;
 };

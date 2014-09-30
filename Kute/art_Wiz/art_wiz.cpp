@@ -5,7 +5,7 @@
 #include "QSqlQuery"
 #include "QSqlDatabase"
 #include "QDataWidgetMapper"
-
+#include "QDesktopServices"
 #include "QDir"
 #include "QSet"
 #include "QSqlError"
@@ -30,6 +30,13 @@ art_Wiz::art_Wiz(QWidget *parent) :
     epiprp(wuser);
     currow = 10000;
     ui->statfilcombo->addItem("All");
+    ui->statfilcombo->addItem("Assigned");
+    ui->statfilcombo->addItem("Submit");
+    ui->statfilcombo->addItem("Approved");
+    ui->statfilcombo->addItem("Rework");
+    ui->statfilcombo->addItem("Delay");
+    curstatfil = "";
+    curartfil = "";
 }
 
 art_Wiz::~art_Wiz()
@@ -227,5 +234,46 @@ void art_Wiz::on_subbut_clicked()
     if (currow != 10000 && modgen->data(modgen->index(currow,2)).toString() != "Approved")
     {
     modgen->setData(modgen->index(currow,7),"Submit");
+    }
+}
+
+void art_Wiz::on_statfilcombo_currentIndexChanged(const QString &arg1)
+{
+    if (arg1.toStdString() == "All")
+    {
+        curstatfil = "";
+    }
+    else
+    {
+        curstatfil = arg1;
+    }
+
+    if (curartfil != "")
+    {
+    modgen->setFilter(QString("status like '%%1%' AND artist like '%%2%' ").arg(curstatfil).arg(curartfil));
+    }
+    else if (curartfil == "")
+    {
+    modgen->setFilter(QString("status like '%%1%'").arg(curstatfil));
+    }
+    else if (curstatfil == "")
+    {
+    modgen->setFilter(QString("status like '%%1%'").arg(curartfil));
+    }
+}
+
+void art_Wiz::on_videobut_clicked()
+{
+    QString as = "select lfloc from asset_mas where name = ";
+    as = as + "\'" + curindex.sibling(currow,1).data().toString() + "\'";
+    QSqlQuery preloc(curdatab);
+    preloc.exec(as);
+    preloc.first();
+    QString ppath = preloc.value(0).toString();
+    QUrl url(ppath);
+
+    if (url.isValid())
+    {
+        QDesktopServices::openUrl(url);
     }
 }

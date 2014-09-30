@@ -80,7 +80,6 @@ void assign_wiz::swtProject(QString prj)
 
 void assign_wiz::swtEpisd(QString epsd)
 {
-
    QString pth;
    episd = epsd;
    pth = basepath + proj + "/";
@@ -150,7 +149,7 @@ void assign_wiz::loadAllTabs()
     ui->modtabv->setModel(assetm);
     ui->modtabv->hideColumn(3);
     ui->modtabv->hideColumn(4);
-    ui->modtabv->hideColumn(7);
+
     ui->modtabv->show();
 
     // asset rig
@@ -190,7 +189,7 @@ void assign_wiz::loadAllTabs()
     ui->rigtabv->setModel(assetr);
     ui->rigtabv->hideColumn(3);
     ui->rigtabv->hideColumn(4);
-    ui->rigtabv->hideColumn(7);
+
     ui->rigtabv->show();
 
     // shot prev
@@ -228,7 +227,7 @@ void assign_wiz::loadAllTabs()
     ui->prevtabv->setModel(shotp);
     ui->prevtabv->hideColumn(3);
     ui->prevtabv->hideColumn(4);
-    ui->prevtabv->hideColumn(7);
+
     ui->prevtabv->show();
 
     // shot block
@@ -267,7 +266,7 @@ void assign_wiz::loadAllTabs()
     ui->blktabv->setModel(shotb);
     ui->blktabv->hideColumn(3);
     ui->blktabv->hideColumn(4);
-    ui->blktabv->hideColumn(7);
+
     ui->blktabv->show();
 
     // shot anim
@@ -303,7 +302,7 @@ void assign_wiz::loadAllTabs()
     ui->anitabv->setModel(shota);
     ui->anitabv->hideColumn(3);
     ui->anitabv->hideColumn(4);
-    ui->anitabv->hideColumn(7);
+
     ui->anitabv->show();
 
     // shot light
@@ -342,7 +341,7 @@ void assign_wiz::loadAllTabs()
     ui->lighttabv->setModel(shotl);
     ui->lighttabv->hideColumn(3);
     ui->lighttabv->hideColumn(4);
-    ui->lighttabv->hideColumn(7);
+
     ui->lighttabv->show();
 
 }

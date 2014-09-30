@@ -17,13 +17,11 @@ SOURCES += main.cpp\
         assign_wiz.cpp \
     comboboxdelegate.cpp \
     datedelegate.cpp \
-    coldel.cpp \
     coldel.cpp
 
 HEADERS  += assign_wiz.h \
     comboboxdelegate.h \
     datedelegate.h \
-    coldel.h \
     coldel.h
 
 FORMS    += assign_wiz.ui

@@ -5,7 +5,7 @@
 #include "QSqlQuery"
 #include "QSqlDatabase"
 #include "QDataWidgetMapper"
-
+#include "QDesktopServices"
 #include "QDir"
 #include "QSet"
 #include "QSqlError"
@@ -38,6 +38,7 @@ apr_Wiz::apr_Wiz(QWidget *parent) :
     ui->statfilcombo->addItem("Approved");
     ui->statfilcombo->addItem("Rework");
     ui->statfilcombo->addItem("Delay");
+    ui->enddtlab->setText("");
     curstatfil = "";
     curartfil = "";
 }
@@ -139,6 +140,7 @@ void apr_Wiz::loadAllTabs()
     //ui->tabv->hideColumn(8);
     ui->tabv->show();
 
+
     mapper = new QDataWidgetMapper;
     mapper->setModel(modgen);
     mapper->addMapping(ui->lcCom, 3);
@@ -206,6 +208,8 @@ void apr_Wiz::on_tabv_clicked(const QModelIndex &index)
     preloc.first();
     QString ppath = preloc.value(0).toString();
 
+    ui->enddtlab->setText("End Date : " + index.sibling(currow,6).data().toString());
+
     QString defpath = "S:/intelture/Pipeline/noPreview.png";
 
   //  ui->detLayout->setStyleSheet("background-color: rgb(50, 155, 255);");
@@ -235,8 +239,8 @@ void apr_Wiz::on_rebut_clicked()
     if (currow != 10000 && modgen->data(modgen->index(currow,2)).toString() != "")
     {
        modgen->select();
-       if ( modgen->data(modgen->index(currow,7)).toString() != "Submit" )
-       modgen->setData(modgen->index(currow,7),"Rework");
+       if ( modgen->data(modgen->index(currow,7)).toString() == "Submit" || modgen->data(modgen->index(currow,7)).toString() == "Approved")
+            modgen->setData(modgen->index(currow,7),"Rework");
     }
 }
 
@@ -288,5 +292,22 @@ void apr_Wiz::on_statfilcombo_currentIndexChanged(const QString &arg1)
     else if (curstatfil == "")
     {
     modgen->setFilter(QString("status like '%%1%'").arg(curartfil));
+    }
+}
+
+
+void apr_Wiz::on_vidbut_clicked()
+{
+    QString as = "select lfloc from asset_mas where name = ";
+    as = as + "\'" + curindex.sibling(currow,1).data().toString() + "\'";
+    QSqlQuery preloc(curdatab);
+    preloc.exec(as);
+    preloc.first();
+    QString ppath = preloc.value(0).toString();
+    QUrl url(ppath);
+
+    if (url.isValid())
+    {
+        QDesktopServices::openUrl(url);
     }
 }

@@ -123,7 +123,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="label">
+       <widget class="QLabel" name="artlab">
         <property name="font">
          <font>
           <family>Trebuchet MS</family>
@@ -171,7 +171,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="label_2">
+       <widget class="QLabel" name="statlab">
         <property name="font">
          <font>
           <family>Trebuchet MS</family>
@@ -693,7 +693,37 @@ background-color: rgb(255, 255, 255);</string>
           <number>2</number>
          </property>
          <item>
-          <widget class="QPushButton" name="pushButton">
+          <widget class="QLabel" name="enddtlab">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>Trebuchet MS</family>
+             <pointsize>10</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>End Date</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="vidbut">
            <property name="minimumSize">
             <size>
              <width>0</width>
