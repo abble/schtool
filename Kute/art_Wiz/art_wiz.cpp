@@ -21,27 +21,36 @@ art_Wiz::art_Wiz(QWidget *parent) :
 {
 
     ui->setupUi(this);
+    visset();
+    swtBpat();
+    swtProject("Jinnrise");
+    curstatfil = "";
+    curartfil = "";
+    statc = 0;
+    //  wuser = qgetenv("USERNAME");
+    //  epiprp(wuser);
+    currow = 10000;
+
+}
+
+void art_Wiz::visset()
+{
     this->setStyleSheet("background-color: rgb(255, 255, 255);");
     ui->tabv->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->tabv->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
-    swtBpat();
-    swtProject("Jinnr");
-    wuser = qgetenv("USERNAME");
-    epiprp(wuser);
-    currow = 10000;
+
     ui->statfilcombo->addItem("All");
     ui->statfilcombo->addItem("Assigned");
     ui->statfilcombo->addItem("Submit");
     ui->statfilcombo->addItem("Approved");
     ui->statfilcombo->addItem("Rework");
     ui->statfilcombo->addItem("Delay");
-    curstatfil = "";
-    curartfil = "";
+
 }
 
 art_Wiz::~art_Wiz()
 {
-    delete ui;
+  delete ui;
 }
 
 void art_Wiz::setCurSt()
@@ -52,21 +61,24 @@ void art_Wiz::setCurSt()
 
 void art_Wiz::swtProject(QString prj)
 {
-    proj = "Jinnr";
+    proj = prj;
     swtEpisd("EP01");
     epipop();
     loadAllTabs();
+
     setCurSt();
     ui->datelab->setText(QDate::currentDate().toString());
     QString qtpth = baseppath + "/" + proj + "/projimage.png";
     ui->prolab->setPixmap(QPixmap(qtpth));
     ui->prolab->setPixmap(QPixmap(qtpth));
+
 }
 
 void art_Wiz::swtBpat()
 {
     basepath = "S:/intelture/Pipeline/Sched/datab/";
-    baseppath = "S:/intelture/Pipeline";
+    //baseppath = "S:/intelture/Pipeline";
+    baseppath = "S:/intelture/Project";
     //basepath = "/Users/sekhar/Github/dbfiles/";
     //baseppath = "/Users/sekhar/Github/Project/";
 }
@@ -83,6 +95,7 @@ void art_Wiz::swtEpisd(QString epsd)
 
 void art_Wiz::loadAllTabs()
 {
+
     // asset mod
 
     modgen = new MySubClassedSqlTableModel(this);
@@ -97,12 +110,6 @@ void art_Wiz::loadAllTabs()
     modgen->sort(0,Qt::AscendingOrder);
 
 
-    ComboBoxDelegate *dmodelrs = new ComboBoxDelegate(ui->tabv);
-    ui->tabv->setItemDelegateForColumn(2,dmodelrs);
-
-    ComboBoxDelegate *statdelg = new ComboBoxDelegate(ui->tabv);
-    ui->tabv->setItemDelegateForColumn(7,statdelg);
-
     coldel *delg = new coldel(ui->tabv);
     ui->tabv->setItemDelegateForColumn(0,delg);
     ui->tabv->setItemDelegateForColumn(1,delg);
@@ -113,19 +120,10 @@ void art_Wiz::loadAllTabs()
     ui->tabv->setItemDelegateForColumn(6,delg);
     ui->tabv->setItemDelegateForColumn(7,delg);
 
-    statdelg->Items.clear();
-    statdelg->Items.push_back("Assigned");
-    statdelg->Items.push_back("Approved");
-    statdelg->Items.push_back("Rework");
-    statdelg->Items.push_back("Delay");
+
 
     QSqlQuery st;
-    st.exec("Select name from user where dept = 'Model'");
-
-    while(st.next())
-    {
-        dmodelrs->Items.push_back(st.value(0).toString().toStdString());
-    }
+   // st.exec("Select name from user where dept = 'Model'");
 
     ui->tabv->setModel(modgen);
     ui->tabv->hideColumn(2);
@@ -134,17 +132,22 @@ void art_Wiz::loadAllTabs()
 
     ui->tabv->show();
 
+
     mapper = new QDataWidgetMapper;
     mapper->setModel(modgen);
     mapper->addMapping(ui->lcCom, 3);
     mapper->addMapping(ui->dcCom, 4);
-
-
+    mapper->setParent(this);
 }
 
 
 void art_Wiz::swtDatabase(QString datab)
 {
+    if (mydb.open())
+    {
+        mydb.close();
+    }
+
     if (!mydb.isValid())
     {
     mydb = QSqlDatabase::addDatabase("QSQLITE");
@@ -164,7 +167,7 @@ void art_Wiz::epipop()
     pth = baseppath + "/" + proj + "/" + "03_Production";
     fld.setPath(pth);
     epilist = fld.entryList(epilist,QDir::AllDirs|QDir::NoDotAndDotDot);
-    ui->epcombo->addItems(epilist);
+    ui->epcombo->addItems(epilist.filter("EP"));
 }
 
 void art_Wiz::epiprp(QString tst)
@@ -173,10 +176,10 @@ void art_Wiz::epiprp(QString tst)
     pt= pt + '\"' + tst + '\"';
     QSqlQuery qry(pt);
     qry.last();
-    ui->procombo->addItem(qry.value("proj").toString());
+   // ui->procombo->addItem(qry.value("proj").toString());
     while (qry.previous())
     {
-    ui->procombo->addItem(qry.value("proj").toString());
+    //ui->procombo->addItem(qry.value("proj").toString());
     }
 
 }
@@ -188,7 +191,6 @@ void art_Wiz::on_tabv_clicked(const QModelIndex &index)
     //mapper->addMapping(ui->dcCom, 4);
 
     mapper->setCurrentIndex(currow);
-
 
     QString selentr = index.sibling(currow,0).data().toString() + ":  " + index.sibling(currow,1).data().toString();
 
@@ -203,7 +205,6 @@ void art_Wiz::on_tabv_clicked(const QModelIndex &index)
     QString ppath = preloc.value(0).toString();
 
     QString defpath = "S:/intelture/Pipeline/noPreview.png";
-
 
     if (index.sibling(currow,7).data().toString() != "Submit" && index.sibling(currow,7).data().toString() != "Approved")
     {
@@ -237,31 +238,6 @@ void art_Wiz::on_subbut_clicked()
     }
 }
 
-void art_Wiz::on_statfilcombo_currentIndexChanged(const QString &arg1)
-{
-    if (arg1.toStdString() == "All")
-    {
-        curstatfil = "";
-    }
-    else
-    {
-        curstatfil = arg1;
-    }
-
-    if (curartfil != "")
-    {
-    modgen->setFilter(QString("status like '%%1%' AND artist like '%%2%' ").arg(curstatfil).arg(curartfil));
-    }
-    else if (curartfil == "")
-    {
-    modgen->setFilter(QString("status like '%%1%'").arg(curstatfil));
-    }
-    else if (curstatfil == "")
-    {
-    modgen->setFilter(QString("status like '%%1%'").arg(curartfil));
-    }
-}
-
 void art_Wiz::on_videobut_clicked()
 {
     QString as = "select lfloc from asset_mas where name = ";
@@ -276,4 +252,34 @@ void art_Wiz::on_videobut_clicked()
     {
         QDesktopServices::openUrl(url);
     }
+}
+
+void art_Wiz::on_statfilcombo_currentTextChanged(const QString &arg1)
+{
+    if (arg1.toStdString() == "All")
+    {
+        curstatfil = "";
+    }
+    else
+    {
+        curstatfil = arg1;
+    }
+
+    if (curstatfil != "")
+    {
+    modgen->setFilter(QString("status like '%%1%'").arg(curstatfil));
+    statc = 1;
+    }
+    else if (statc == 1)
+    {
+       modgen->setFilter("");
+    }
+
+}
+
+void art_Wiz::on_procombo_currentTextChanged(const QString &arg1)
+{
+    proj = arg1;
+    ui->epcombo->clear();
+    swtProject(proj);
 }

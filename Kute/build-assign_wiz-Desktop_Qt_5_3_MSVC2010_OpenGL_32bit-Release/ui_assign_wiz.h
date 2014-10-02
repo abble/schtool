@@ -18,6 +18,7 @@
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
+#include <QtWidgets/QProgressBar>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QStackedWidget>
 #include <QtWidgets/QTabWidget>
@@ -86,6 +87,7 @@ public:
     QLabel *shprevlab;
     QLabel *shprolab;
     QLabel *curstate;
+    QProgressBar *prog;
 
     void setupUi(QWidget *assign_wiz)
     {
@@ -510,6 +512,15 @@ public:
 
         verticalLayout->addWidget(curstate);
 
+        prog = new QProgressBar(assign_wiz);
+        prog->setObjectName(QStringLiteral("prog"));
+        prog->setMaximumSize(QSize(16777215, 8));
+        prog->setValue(24);
+        prog->setTextVisible(false);
+        prog->setInvertedAppearance(false);
+
+        verticalLayout->addWidget(prog);
+
         QWidget::setTabOrder(asbut, shbut);
         QWidget::setTabOrder(shbut, procombo);
         QWidget::setTabOrder(procombo, epcombo);
@@ -540,8 +551,7 @@ public:
         procombo->clear();
         procombo->insertItems(0, QStringList()
          << QApplication::translate("assign_wiz", "Jinnrise", 0)
-         << QApplication::translate("assign_wiz", "Megabear", 0)
-         << QApplication::translate("assign_wiz", "Maskmaster2", 0)
+         << QApplication::translate("assign_wiz", "MaskMasters_SE02", 0)
         );
         label->setText(QApplication::translate("assign_wiz", "Artist", 0));
         label_2->setText(QApplication::translate("assign_wiz", "Status", 0));

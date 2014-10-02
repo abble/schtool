@@ -72,6 +72,7 @@ public:
     void setPreviewPan();
     void setCurSt();
     void loadAllTabs();
+    void visset();
 
 
 
@@ -89,17 +90,18 @@ public:
     QModelIndex curindex;
     QString curartfil,curstatfil;
     QString wuser;
-
+    int statc;
 
 private slots:
     void on_tabv_clicked(const QModelIndex &index);
 
-
     void on_subbut_clicked();
 
-    void on_statfilcombo_currentIndexChanged(const QString &arg1);
-
     void on_videobut_clicked();
+
+    void on_statfilcombo_currentTextChanged(const QString &arg1);
+
+    void on_procombo_currentTextChanged(const QString &arg1);
 
 private:
     Ui::art_Wiz *ui;

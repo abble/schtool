@@ -76,10 +76,11 @@ public:
     void swtassshot(QString but);
     void swtBpat();
     void epipop();
-    void setPreviewPan();
+
     void setCurSt();
     void loadAllTabs();
     void refreshData();
+    void visset();
 
 
 
@@ -124,6 +125,14 @@ private slots:
     void on_statfilcombo_currentIndexChanged(const QString &arg1);
 
     void on_artfilcombo_currentIndexChanged(const QString &arg1);
+
+    void on_blktabv_clicked(const QModelIndex &index);
+
+    void on_anitabv_clicked(const QModelIndex &index);
+
+    void on_lighttabv_clicked(const QModelIndex &index);
+
+    void on_procombo_currentIndexChanged(const QString &arg1);
 
 private:
     Ui::assign_wiz *ui;

@@ -20,6 +20,17 @@ assign_wiz::assign_wiz(QWidget *parent) :
     ui(new Ui::assign_wiz)
 {
     ui->setupUi(this);
+    visset();    
+    swtBpat();
+    swtProject("JinnRise");
+
+    ui->artfilcombo->addItems(mdrs);
+    curstatfil = "";
+    curartfil = "";
+}
+
+void assign_wiz::visset()
+{
     this->setStyleSheet("background-color: rgb(0, 53, 118);");
     ui->modtabv->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->rigtabv->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
@@ -35,9 +46,6 @@ assign_wiz::assign_wiz(QWidget *parent) :
     ui->anitabv->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
     ui->lighttabv->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
 
-    swtBpat();
-    swtProject("Jinnr");
-
     ui->asprevlab->setPixmap(QPixmap("S:/intelture/Pipeline/noPreview.png"));
     ui->shprevlab->setPixmap(QPixmap("S:/intelture/Pipeline/noPreview.png"));
 
@@ -49,34 +57,32 @@ assign_wiz::assign_wiz(QWidget *parent) :
     ui->statfilcombo->addItem("Rework");
     ui->statfilcombo->addItem("Delay");
 
-    ui->artfilcombo->addItems(mdrs);
-    curstatfil = "";
-    curartfil = "";
-    //   setPreviewPan();
-
 }
 
 void assign_wiz::setCurSt()
 {
-   curstate = " " + proj + "/" + " " + episd + " " + "/" + " " + asbut + " " + "/" + " " + tabbut;
+   curstate = " " + proj + " /" + " " + episd + " " + "/" + " " + asbut + " " + "/" + " " + tabbut;
    ui->curstate->setText(curstate);
 }
 
 void assign_wiz::swtProject(QString prj)
 {
-    proj = "Jinnr";
+    proj = prj;
     swtEpisd("EP01");
     epipop();
     asbut = "Assets";
     tabbut = "Model";
     refreshData();
     loadAllTabs();
+    ui->prog->setValue(0);
     setCurSt();
     ui->datelab->setText(QDate::currentDate().toString());
     QString qtpth = baseppath + "/" + proj + "/projimage.png";
     ui->asprolab->setPixmap(QPixmap(qtpth));
     ui->shprolab->setPixmap(QPixmap(qtpth));
+
 }
+
 
 void assign_wiz::swtEpisd(QString epsd)
 {
@@ -95,13 +101,18 @@ assign_wiz::~assign_wiz()
 
 void assign_wiz::refreshData()
 {
+
     getnasentrs();
     getnshentrs();
+
 }
 
 void assign_wiz::loadAllTabs()
 {
     // asset mod
+
+    ui->prog->show();
+    ui->prog->setValue(0);
 
     assetm = new MySubClassedSqlTableModel(this);
     assetm->setTable("asset_mod");
@@ -149,10 +160,12 @@ void assign_wiz::loadAllTabs()
     ui->modtabv->setModel(assetm);
     ui->modtabv->hideColumn(3);
     ui->modtabv->hideColumn(4);
-
     ui->modtabv->show();
 
     // asset rig
+
+
+    ui->prog->setValue(20);
 
     assetr = new MySubClassedSqlTableModel(this);
     assetr->setTable("asset_rig");
@@ -166,8 +179,6 @@ void assign_wiz::loadAllTabs()
     assetr->setHeaderData(7,Qt::Horizontal,tr("Status"));
     assetr->sort(0,Qt::AscendingOrder);
 
-
-
     ComboBoxDelegate *drigers = new ComboBoxDelegate(ui->rigtabv);
     ui->rigtabv->setItemDelegateForColumn(2,drigers);
     ui->rigtabv->setItemDelegateForColumn(5,dated);
@@ -180,6 +191,7 @@ void assign_wiz::loadAllTabs()
     st.exec("Select artist from user where dept = 'rig'");
     rgrs.clear();
     drigers->Items.push_back("");
+
     while(st.next())
     {
         drigers->Items.push_back(st.value(0).toString().toStdString());
@@ -189,10 +201,11 @@ void assign_wiz::loadAllTabs()
     ui->rigtabv->setModel(assetr);
     ui->rigtabv->hideColumn(3);
     ui->rigtabv->hideColumn(4);
-
     ui->rigtabv->show();
 
     // shot prev
+
+    ui->prog->setValue(40);
 
     shotp = new MySubClassedSqlTableModel(this);
     shotp->setTable("shot_prev");
@@ -218,6 +231,7 @@ void assign_wiz::loadAllTabs()
     st.exec("Select artist from user where dept = 'anim'");
     animrs.clear();
     dprev->Items.push_back("");
+
     while(st.next())
     {
         dprev->Items.push_back(st.value(0).toString().toStdString());
@@ -227,10 +241,11 @@ void assign_wiz::loadAllTabs()
     ui->prevtabv->setModel(shotp);
     ui->prevtabv->hideColumn(3);
     ui->prevtabv->hideColumn(4);
-
     ui->prevtabv->show();
 
     // shot block
+
+    ui->prog->setValue(60);
 
     shotb = new MySubClassedSqlTableModel(this);
     shotb->setTable("shot_blk");
@@ -257,6 +272,7 @@ void assign_wiz::loadAllTabs()
 
     st.exec("Select artist from user where dept = 'anim'");
     dblk->Items.push_back("");
+
     while(st.next())
     {
         dblk->Items.push_back(st.value(0).toString().toStdString());
@@ -266,10 +282,11 @@ void assign_wiz::loadAllTabs()
     ui->blktabv->setModel(shotb);
     ui->blktabv->hideColumn(3);
     ui->blktabv->hideColumn(4);
-
     ui->blktabv->show();
 
     // shot anim
+
+    ui->prog->setValue(80);
 
     shota = new MySubClassedSqlTableModel(this);
     shota->setTable("shot_anim");
@@ -294,6 +311,7 @@ void assign_wiz::loadAllTabs()
 
     st.exec("Select artist from user where dept = 'anim'");
     danim->Items.push_back("");
+
     while(st.next())
     {
         danim->Items.push_back(st.value(0).toString().toStdString());
@@ -302,10 +320,11 @@ void assign_wiz::loadAllTabs()
     ui->anitabv->setModel(shota);
     ui->anitabv->hideColumn(3);
     ui->anitabv->hideColumn(4);
-
     ui->anitabv->show();
 
     // shot light
+
+    ui->prog->setValue(90);
 
     shotl = new MySubClassedSqlTableModel(this);
     shotl->setTable("shot_light");
@@ -331,6 +350,7 @@ void assign_wiz::loadAllTabs()
     st.exec("Select artist from user where dept = 'light'");
     ligrs.clear();
     dlight->Items.push_back("");
+
     while(st.next())
     {
         dlight->Items.push_back(st.value(0).toString().toStdString());
@@ -341,31 +361,10 @@ void assign_wiz::loadAllTabs()
     ui->lighttabv->setModel(shotl);
     ui->lighttabv->hideColumn(3);
     ui->lighttabv->hideColumn(4);
-
     ui->lighttabv->show();
 
-}
-
-void assign_wiz::setPreviewPan()
-{
-    QSqlQuery query;
-
-    if (asbut == "asset")
-    {
-       // QString qery = "select pvwloc from " + "asset_mas" + " Where (type,name) are ";
-       // query.exec(qery);
-    }
-    else
-    {
-        // QString qery = "select pvwloc from " + asbut + "_" + "mas" + " Where (";
-        // query.exec(qery);
-    }
-
-   // qDebug() << qery;
-
-    QString pt;
-    QPixmap mp(pt);
-   // ui->label->setPixmap(mp);
+    ui->prog->setValue(100);
+;
 }
 
 void assign_wiz::epipop()
@@ -374,12 +373,17 @@ void assign_wiz::epipop()
     QDir fld;
     pth = baseppath + "/" + proj + "/" + "03_Production";
     fld.setPath(pth);
+
     epilist = fld.entryList(epilist,QDir::AllDirs|QDir::NoDotAndDotDot);
-    ui->epcombo->addItems(epilist);
+    ui->epcombo->addItems(epilist.filter("EP"));
 }
 
 void assign_wiz::swtDatabase(QString datab)
 {
+    if (mydb.isOpen())
+    {
+        mydb.close();
+    }
     if (!mydb.isValid())
     {
     mydb = QSqlDatabase::addDatabase("QSQLITE");
@@ -391,11 +395,11 @@ void assign_wiz::swtDatabase(QString datab)
     }
 }
 
-
 void assign_wiz::swtBpat()
 {
     basepath = "S:/intelture/Pipeline/Sched/datab/";
-    baseppath = "S:/intelture/Pipeline";
+  //  baseppath = "S:/intelture/Pipeline";
+    baseppath = "S:/intelture/Project";
     //basepath = "/Users/sekhar/Github/dbfiles/";
     //baseppath = "/Users/sekhar/Github/Project/";
 }
@@ -414,11 +418,9 @@ void assign_wiz::getnasentrs()
        tlist << query.value(0).toString().toLower() + "_" + query.value(1).toString().toLower();
     }
 
-
     pth = baseppath + "/" + proj + "/" + "03_Production" + "/" + episd + "/" + "assets" + "/" + "characters";
     fld.setPath(pth);
     ftlist = fld.entryList(ftlist,QDir::AllDirs|QDir::NoDotAndDotDot);
-
 
     QStringListIterator iter(ftlist);
 
@@ -427,8 +429,6 @@ void assign_wiz::getnasentrs()
 
         flist << "character_" + iter.next().toLower();
     }
-
-
 
     pth = baseppath + "/" + proj + "/" + "03_Production" + "/" + episd  + "/" + "assets" + "/" + "Environments";
     fld.setPath(pth);
@@ -452,7 +452,6 @@ void assign_wiz::getnasentrs()
         flist << "prop_" + iter2.next().toLower();
     }
 
-
      QSet<QString> comentr = flist.toSet().intersect(tlist.toSet());
      QSet<QString> newentr = flist.toSet().subtract(comentr);
      QSet<QString> delentr = tlist.toSet().subtract(comentr);
@@ -472,7 +471,6 @@ void assign_wiz::getnasentrs()
 
      }
      mydb.commit();
-
 
 }
 void assign_wiz::getnshentrs()
@@ -526,10 +524,7 @@ void assign_wiz::getnshentrs()
     }
     mydb.commit();
 
-
 }
-
-
 
 void assign_wiz::on_asbut_clicked()
 {
@@ -665,16 +660,28 @@ void assign_wiz::on_modtabv_clicked(const QModelIndex &index)
 {
     int row = index.row();
 
-    QString as = "select pvwloc from asset_mas where type = ";
+    /*QString as = "select pvwloc from asset_mas where type = ";
     as = as + "\'" + index.sibling(row,0).data().toString() + "\'" + "and name = " +  "\'" + index.sibling(row,1).data().toString() + "\'";
     QSqlQuery preloc(curdatab);
     preloc.exec(as);
     preloc.first();
-    QString ppath = preloc.value(0).toString();
+    QString ppath = preloc.value(0).toString();*/
+
+    QString ppath;
+    if (index.sibling(row,0).data().toString() == "environment")
+    {
+    ppath = baseppath + "/" + proj + "/" + "03_Production" +"/" + episd  + "/" + asbut  + "/" + index.sibling(row,0).data().toString() + "/" + index.sibling(row,1).data().toString() + "/" + "components" + "/" + "Mod" + "/" + "preview.jpg";
+    }
+    else
+    {
+    ppath = baseppath + "/" + proj + "/" + "03_Production" +"/" + episd  + "/" + asbut  + "/" + index.sibling(row,0).data().toString()+ "s" + "/" + index.sibling(row,1).data().toString() + "/" + "components" + "/" + "Mod" + "/" + "preview.jpg";
+    }
 
     QString defpath = "S:/intelture/Pipeline/noPreview.png";
 
-    if (QUrl(ppath).isValid())
+    QFile fl(ppath);
+
+    if (fl.exists())
     {
         ui->asprevlab->setPixmap(QPixmap(ppath));
     }
@@ -688,16 +695,29 @@ void assign_wiz::on_rigtabv_clicked(const QModelIndex &index)
 {
     int row = index.row();
 
-    QString as = "select pvwloc from asset_mas where type = ";
+   /* QString as = "select pvwloc from asset_mas where type = ";
     as = as + "\'" + index.sibling(row,0).data().toString() + "\'" + "and name = " +  "\'" + index.sibling(row,1).data().toString() + "\'";
     QSqlQuery preloc(curdatab);
     preloc.exec(as);
     preloc.first();
-    QString ppath = preloc.value(0).toString();
+    QString ppath = preloc.value(0).toString();*/
 
+    QString ppath;
+
+    if (index.sibling(row,0).data().toString() == "environment")
+    {
+    ppath = baseppath + "/" + proj + "/" + "03_Production" +"/" + episd  + "/" + asbut  + "/" + index.sibling(row,0).data().toString() + "/" + index.sibling(row,1).data().toString() + "/" + "components" + "/" + "Rig" + "/" + "preview.jpg";
+    }
+    else
+    {
+    ppath = baseppath + "/" + proj + "/" + "03_Production" +"/" + episd  + "/" + asbut  + "/" + index.sibling(row,0).data().toString()+ "s" + "/" + index.sibling(row,1).data().toString() + "/" + "components" + "/" + "Rig" + "/" + "preview.jpg";
+    }
+
+
+    QFile fl(ppath);
     QString defpath = "S:/intelture/Pipeline/noPreview.png";
 
-    if (QUrl(ppath).isValid())
+    if (fl.exists())
     {
         ui->asprevlab->setPixmap(QPixmap(ppath));
     }
@@ -712,16 +732,20 @@ void assign_wiz::on_prevtabv_clicked(const QModelIndex &index)
 {
     int row = index.row();
 
-    QString as = "select pvwloc from shot_mas where scene = ";
+ /*   QString as = "select pvwloc from shot_mas where scene = ";
     as = as + "\'" + index.sibling(row,0).data().toString()+ "\'"  + " and shot = " + "\'" + index.sibling(row,1).data().toString() + "\'" ;
     QSqlQuery preloc(curdatab);
     preloc.exec(as);
     preloc.first();
-    QString ppath = preloc.value(0).toString();
+    QString ppath = preloc.value(0).toString();*/
+
+    QString ppath = baseppath + "/" + proj + "/" + "03_Production" +"/" + episd  + "/" + "Animations"  + "/" + index.sibling(row,0).data().toString()+ "/" + index.sibling(row,1).data().toString() + "/" + "components" + "/" + "Previs" + "/" + "preview.jpg";
 
     QString defpath = "S:/intelture/Pipeline/noPreview.png";
 
-    if (QUrl(ppath).isValid())
+    QFile fl(ppath);
+
+    if (fl.exists())
     {
         ui->shprevlab->setPixmap(QPixmap(ppath));
     }
@@ -730,6 +754,87 @@ void assign_wiz::on_prevtabv_clicked(const QModelIndex &index)
         ui->shprevlab->setPixmap(QPixmap(defpath));
     }
 }
+
+void assign_wiz::on_blktabv_clicked(const QModelIndex &index)
+{
+    int row = index.row();
+
+ /*   QString as = "select pvwloc from shot_mas where scene = ";
+    as = as + "\'" + index.sibling(row,0).data().toString()+ "\'"  + " and shot = " + "\'" + index.sibling(row,1).data().toString() + "\'" ;
+    QSqlQuery preloc(curdatab);
+    preloc.exec(as);
+    preloc.first();
+    QString ppath = preloc.value(0).toString();*/
+
+    QString ppath = baseppath + "/" + proj + "/" + "03_Production" +"/" + episd  + "/" + "Animations"  + "/" + index.sibling(row,0).data().toString()+ "/" + index.sibling(row,1).data().toString() + "/" + "components" + "/" + "Blocking" + "/" + "preview.jpg";
+
+    QString defpath = "S:/intelture/Pipeline/noPreview.png";
+
+    QFile fl(ppath);
+
+    if (fl.exists())
+    {
+        ui->shprevlab->setPixmap(QPixmap(ppath));
+    }
+    else
+    {
+        ui->shprevlab->setPixmap(QPixmap(defpath));
+    }
+
+}
+
+void assign_wiz::on_anitabv_clicked(const QModelIndex &index)
+{
+    int row = index.row();
+
+ /*   QString as = "select pvwloc from shot_mas where scene = ";
+    as = as + "\'" + index.sibling(row,0).data().toString()+ "\'"  + " and shot = " + "\'" + index.sibling(row,1).data().toString() + "\'" ;
+    QSqlQuery preloc(curdatab);
+    preloc.exec(as);
+    preloc.first();
+    QString ppath = preloc.value(0).toString();*/
+
+    QString ppath = baseppath + "/" + proj + "/" + "03_Production" +"/" + episd  + "/" + "Animations"  + "/" + index.sibling(row,0).data().toString() + "/" + index.sibling(row,1).data().toString() + "/" + "components" + "/" + "Animation" + "/" + "preview.jpg";
+
+    QString defpath = "S:/intelture/Pipeline/noPreview.png";
+    QFile fl(ppath);
+
+    if (fl.exists())
+    {
+        ui->shprevlab->setPixmap(QPixmap(ppath));
+    }
+    else
+    {
+        ui->shprevlab->setPixmap(QPixmap(defpath));
+    }
+}
+
+void assign_wiz::on_lighttabv_clicked(const QModelIndex &index)
+{
+    int row = index.row();
+
+ /*   QString as = "select pvwloc from shot_mas where scene = ";
+    as = as + "\'" + index.sibling(row,0).data().toString()+ "\'"  + " and shot = " + "\'" + index.sibling(row,1).data().toString() + "\'" ;
+    QSqlQuery preloc(curdatab);
+    preloc.exec(as);
+    preloc.first();
+    QString ppath = preloc.value(0).toString();*/
+
+    QString ppath = baseppath + "/" + proj + "/" + "03_Production" +"/" + episd  + "/" + "Animations"  + "/" + index.sibling(row,0).data().toString() + "/" + index.sibling(row,1).data().toString() + "/" + "components" + "/" + "Lighting" + "/" + "preview.jpg";
+
+    QString defpath = "S:/intelture/Pipeline/noPreview.png";
+    QFile fl(ppath);
+
+    if (fl.exists())
+    {
+        ui->shprevlab->setPixmap(QPixmap(ppath));
+    }
+    else
+    {
+        ui->shprevlab->setPixmap(QPixmap(defpath));
+    }
+}
+
 
 
 void assign_wiz::on_statfilcombo_currentIndexChanged(const QString &arg1)
@@ -986,4 +1091,12 @@ void assign_wiz::on_artfilcombo_currentIndexChanged(const QString &arg1)
         }
     }
 
+}
+
+
+void assign_wiz::on_procombo_currentIndexChanged(const QString &arg1)
+{
+    proj = arg1;
+    ui->epcombo->clear();
+    swtProject(proj);
 }
