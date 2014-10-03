@@ -91,6 +91,7 @@ public:
     QString curartfil,curstatfil;
     QString wuser;
     int statc;
+    QString curdep;
 
 private slots:
     void on_tabv_clicked(const QModelIndex &index);

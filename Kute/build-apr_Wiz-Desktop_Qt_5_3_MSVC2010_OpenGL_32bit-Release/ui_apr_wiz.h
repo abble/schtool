@@ -413,6 +413,11 @@ public:
     void retranslateUi(QWidget *apr_Wiz)
     {
         apr_Wiz->setWindowTitle(QApplication::translate("apr_Wiz", "apr_Wiz", 0));
+        procombo->clear();
+        procombo->insertItems(0, QStringList()
+         << QApplication::translate("apr_Wiz", "Jinnrise", 0)
+         << QApplication::translate("apr_Wiz", "MaskMasters_SE02", 0)
+        );
         artlab->setText(QApplication::translate("apr_Wiz", "Artist", 0));
         statlab->setText(QApplication::translate("apr_Wiz", "Status", 0));
         datelab->setText(QApplication::translate("apr_Wiz", "24/9/2014", 0));

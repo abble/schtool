@@ -93,16 +93,6 @@
         <property name="styleSheet">
          <string notr="true">color: rgb(255, 255, 255);</string>
         </property>
-        <item>
-         <property name="text">
-          <string>Jinnrise</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>MaskMasters_SE02</string>
-         </property>
-        </item>
        </widget>
       </item>
       <item>

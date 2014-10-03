@@ -26,9 +26,9 @@ apr_Wiz::apr_Wiz(QWidget *parent) :
     ui->tabv->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->tabv->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
     swtBpat();
-    swtProject("Jinnr");
-    wuser = qgetenv("USERNAME");
-    epiprp(wuser);
+    swtProject("Jinnrise");
+   // wuser = qgetenv("USERNAME");
+   // epiprp(wuser);
     currow = 10000;
 
 
@@ -50,13 +50,13 @@ apr_Wiz::~apr_Wiz()
 
 void apr_Wiz::setCurSt()
 {
-   curstate = " " + proj + "/" + " " + episd + " " + "/" + " " + "Assets" + " " + "/" + " " + "Model";
+   curstate = " " + proj + " /" + " " + episd + " " + "/" + " " + "Assets" + " " + "/" + " " + "Model";
    ui->curstate->setText(curstate);
 }
 
 void apr_Wiz::swtProject(QString prj)
 {
-    proj = "Jinnr";
+    proj = prj;
     swtEpisd("EP01");
     epipop();
     loadAllTabs();
@@ -70,7 +70,8 @@ void apr_Wiz::swtProject(QString prj)
 void apr_Wiz::swtBpat()
 {
     basepath = "S:/intelture/Pipeline/Sched/datab/";
-    baseppath = "S:/intelture/Pipeline";
+    //  baseppath = "S:/intelture/Pipeline";
+      baseppath = "S:/intelture/Project";
     //basepath = "/Users/sekhar/Github/dbfiles/";
     //baseppath = "/Users/sekhar/Github/Project/";
 }
@@ -145,13 +146,18 @@ void apr_Wiz::loadAllTabs()
     mapper->setModel(modgen);
     mapper->addMapping(ui->lcCom, 3);
     mapper->addMapping(ui->dcCom, 4);
-
+    mapper->setParent(this);
 
 }
 
 
 void apr_Wiz::swtDatabase(QString datab)
 {
+    if (mydb.open())
+    {
+        mydb.close();
+    }
+
     if (!mydb.isValid())
     {
     mydb = QSqlDatabase::addDatabase("QSQLITE");
@@ -170,8 +176,9 @@ void apr_Wiz::epipop()
     QDir fld;
     pth = baseppath + "/" + proj + "/" + "03_Production";
     fld.setPath(pth);
+
     epilist = fld.entryList(epilist,QDir::AllDirs|QDir::NoDotAndDotDot);
-    ui->epcombo->addItems(epilist);
+    ui->epcombo->addItems(epilist.filter("EP"));
 }
 
 void apr_Wiz::epiprp(QString tst)
@@ -201,20 +208,25 @@ void apr_Wiz::on_tabv_clicked(const QModelIndex &index)
     ui->dcuren->setText(selentr);
     ui->lcuren->setText(selentr);
 
-    QString as = "select pvwloc from asset_mas where name = ";
+   /* QString as = "select pvwloc from asset_mas where name = ";
     as = as + "\'" + index.sibling(currow,1).data().toString() + "\'";
     QSqlQuery preloc(curdatab);
     preloc.exec(as);
     preloc.first();
-    QString ppath = preloc.value(0).toString();
+    QString ppath = preloc.value(0).toString(); */
+
+
+    QString ppath = baseppath + "/" + proj + "/" + "03_Production" +"/" + episd  + "/" + "Assets"  + "/" + index.sibling(currow,0).data().toString() + "s" + "/" + index.sibling(currow,1).data().toString() + "/" + "components" + "/" + "Mod" + "/" + "preview.jpg";
 
     ui->enddtlab->setText("End Date : " + index.sibling(currow,6).data().toString());
 
     QString defpath = "S:/intelture/Pipeline/noPreview.png";
 
+    QFile fl(ppath);
+
   //  ui->detLayout->setStyleSheet("background-color: rgb(50, 155, 255);");
 
-    if (QUrl(ppath).isValid())
+    if (fl.exists())
     {
         ui->prevlab->setPixmap(QPixmap(ppath));
     }
@@ -245,57 +257,6 @@ void apr_Wiz::on_rebut_clicked()
 }
 
 
-void apr_Wiz::on_artfilcombo_currentIndexChanged(const QString &arg1)
-{
-    if (arg1.toStdString() == "All")
-    {
-        curartfil = "";
-    }
-    else
-    {
-        curartfil = arg1;
-    }
-
-    if (curartfil != "")
-    {
-    modgen->setFilter(QString("status like '%%1%' AND artist like '%%2%' ").arg(curstatfil).arg(curartfil));
-    }
-    else if (curartfil == "")
-    {
-    modgen->setFilter(QString("status like '%%1%'").arg(curstatfil));
-    }
-    else if (curstatfil == "")
-    {
-    modgen->setFilter(QString("status like '%%1%'").arg(curartfil));
-    }
-}
-
-void apr_Wiz::on_statfilcombo_currentIndexChanged(const QString &arg1)
-{
-    if (arg1.toStdString() == "All")
-    {
-        curstatfil = "";
-    }
-    else
-    {
-        curstatfil = arg1;
-    }
-
-    if (curartfil != "")
-    {
-    modgen->setFilter(QString("status like '%%1%' AND artist like '%%2%' ").arg(curstatfil).arg(curartfil));
-    }
-    else if (curartfil == "")
-    {
-    modgen->setFilter(QString("status like '%%1%'").arg(curstatfil));
-    }
-    else if (curstatfil == "")
-    {
-    modgen->setFilter(QString("status like '%%1%'").arg(curartfil));
-    }
-}
-
-
 void apr_Wiz::on_vidbut_clicked()
 {
     QString as = "select lfloc from asset_mas where name = ";
@@ -309,5 +270,73 @@ void apr_Wiz::on_vidbut_clicked()
     if (url.isValid())
     {
         QDesktopServices::openUrl(url);
+    }
+}
+
+void apr_Wiz::on_procombo_currentTextChanged(const QString &arg1)
+{
+    proj = arg1;
+    ui->epcombo->clear();
+    swtProject(proj);
+
+}
+
+void apr_Wiz::on_artfilcombo_currentTextChanged(const QString &arg1)
+{
+    if (arg1.toStdString() == "All")
+    {
+        curartfil = "";
+    }
+    else
+    {
+        curartfil = arg1;
+    }
+
+    if (curartfil != "" && curstatfil != "")
+      {
+      modgen->setFilter(QString("status like '%%1%' AND artist like '%%2%' ").arg(curstatfil).arg(curartfil));
+      }
+      else if (curartfil == "" && curstatfil != "")
+      {
+      modgen->setFilter(QString("status like '%%1%'").arg(curstatfil));
+      }
+      else if (curstatfil == "" && curartfil != "")
+      {
+      modgen->setFilter(QString("status like '%%1%'").arg(curartfil));
+      }
+      else
+      {
+       modgen->setFilter("");
+      }
+}
+
+
+
+void apr_Wiz::on_statfilcombo_currentTextChanged(const QString &arg1)
+{
+    if (arg1.toStdString() == "All")
+    {
+        curstatfil = "";
+    }
+    else
+    {
+        curstatfil = arg1;
+    }
+
+  if (curartfil != "" && curstatfil != "")
+    {
+    modgen->setFilter(QString("status like '%%1%' AND artist like '%%2%' ").arg(curstatfil).arg(curartfil));
+    }
+    else if (curartfil == "" && curstatfil != "")
+    {
+    modgen->setFilter(QString("status like '%%1%'").arg(curstatfil));
+    }
+    else if (curstatfil == "" && curartfil != "")
+    {
+    modgen->setFilter(QString("status like '%%1%'").arg(curartfil));
+    }
+    else
+    {
+     modgen->setFilter("");
     }
 }

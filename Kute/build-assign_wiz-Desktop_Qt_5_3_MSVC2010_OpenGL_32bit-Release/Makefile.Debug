@@ -908,6 +908,57 @@ debug\assign_wiz.obj: ..\assign_Wiz\assign_wiz.cpp ..\assign_Wiz\assign_wiz.h \
 		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtCore\QUrl \
 		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtCore\QVariant \
 		ui_assign_wiz.h \
+		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtWidgets\QAction \
+		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtWidgets\qaction.h \
+		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtGui\qicon.h \
+		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtWidgets\qactiongroup.h \
+		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtWidgets\QApplication \
+		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtWidgets\qapplication.h \
+		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtCore\qcoreapplication.h \
+		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtCore\qeventloop.h \
+		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtWidgets\qdesktopwidget.h \
+		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtGui\qguiapplication.h \
+		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtGui\qinputmethod.h \
+		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtWidgets\QButtonGroup \
+		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtWidgets\qbuttongroup.h \
+		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtWidgets\QComboBox \
+		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtWidgets\qcombobox.h \
+		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtWidgets\qabstractitemdelegate.h \
+		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtWidgets\qstyleoption.h \
+		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtWidgets\qabstractspinbox.h \
+		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtGui\qvalidator.h \
+		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtCore\qregularexpression.h \
+		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtWidgets\qslider.h \
+		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtWidgets\qabstractslider.h \
+		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtWidgets\qstyle.h \
+		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtWidgets\qtabbar.h \
+		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtWidgets\qtabwidget.h \
+		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtWidgets\qrubberband.h \
+		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtWidgets\qframe.h \
+		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtWidgets\QFrame \
+		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtWidgets\QHBoxLayout \
+		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtWidgets\qboxlayout.h \
+		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtWidgets\qlayout.h \
+		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtWidgets\qlayoutitem.h \
+		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtWidgets\qgridlayout.h \
+		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtWidgets\QHeaderView \
+		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtWidgets\qheaderview.h \
+		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtWidgets\qabstractitemview.h \
+		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtWidgets\qabstractscrollarea.h \
+		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtCore\qitemselectionmodel.h \
+		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtWidgets\QLabel \
+		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtWidgets\qlabel.h \
+		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtWidgets\QProgressBar \
+		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtWidgets\qprogressbar.h \
+		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtWidgets\QPushButton \
+		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtWidgets\qpushbutton.h \
+		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtWidgets\qabstractbutton.h \
+		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtWidgets\QStackedWidget \
+		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtWidgets\qstackedwidget.h \
+		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtWidgets\QTabWidget \
+		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtWidgets\QTableView \
+		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtWidgets\qtableview.h \
+		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtWidgets\QVBoxLayout \
 		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtCore\QDebug \
 		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtSql\QSql \
 		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtSql\QSqlQuery \
@@ -927,19 +978,6 @@ debug\assign_wiz.obj: ..\assign_Wiz\assign_wiz.cpp ..\assign_Wiz\assign_wiz.h \
 		..\assign_Wiz\comboboxdelegate.h \
 		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtWidgets\QItemDelegate \
 		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtWidgets\qitemdelegate.h \
-		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtWidgets\qabstractitemdelegate.h \
-		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtWidgets\qstyleoption.h \
-		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtWidgets\qabstractspinbox.h \
-		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtGui\qvalidator.h \
-		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtCore\qregularexpression.h \
-		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtGui\qicon.h \
-		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtWidgets\qslider.h \
-		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtWidgets\qabstractslider.h \
-		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtWidgets\qstyle.h \
-		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtWidgets\qtabbar.h \
-		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtWidgets\qtabwidget.h \
-		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtWidgets\qrubberband.h \
-		C:\Qt\Qt5.3.1\5.3\msvc2010_opengl\include\QtWidgets\qframe.h \
 		..\assign_Wiz\coldel.h \
 		..\assign_Wiz\datedelegate.h
 

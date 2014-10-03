@@ -90,6 +90,8 @@ public:
     QString wuser;
     QString curartfil,curstatfil;
     QStringList mdrs;
+    int statc,stata;
+    QString curdep;
 
 
 private slots:
@@ -99,12 +101,13 @@ private slots:
 
     void on_rebut_clicked();
 
-    void on_artfilcombo_currentIndexChanged(const QString &arg1);
-
-    void on_statfilcombo_currentIndexChanged(const QString &arg1);
-
-
     void on_vidbut_clicked();
+
+    void on_procombo_currentTextChanged(const QString &arg1);
+
+    void on_artfilcombo_currentTextChanged(const QString &arg1);
+
+    void on_statfilcombo_currentTextChanged(const QString &arg1);
 
 private:
     Ui::apr_Wiz *ui;

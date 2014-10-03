@@ -27,11 +27,14 @@ art_Wiz::art_Wiz(QWidget *parent) :
     curstatfil = "";
     curartfil = "";
     statc = 0;
-    //  wuser = qgetenv("USERNAME");
-    //  epiprp(wuser);
+    wuser = qgetenv("USERNAME");
+    wuser = "sharil";
+    epiprp(wuser);
     currow = 10000;
 
 }
+
+
 
 void art_Wiz::visset()
 {
@@ -64,14 +67,22 @@ void art_Wiz::swtProject(QString prj)
     proj = prj;
     swtEpisd("EP01");
     epipop();
-    loadAllTabs();
 
+    QString pt = "select proj,dept from puser where artist = ";
+    pt= pt + '\"' + wuser + '\"';
+    QSqlQuery qry(pt);
+    qry.last();
+    while (qry.previous())
+    {
+    curdep = qry.value("dept").toString();
+    }
+    loadAllTabs();
     setCurSt();
     ui->datelab->setText(QDate::currentDate().toString());
     QString qtpth = baseppath + "/" + proj + "/projimage.png";
     ui->prolab->setPixmap(QPixmap(qtpth));
     ui->prolab->setPixmap(QPixmap(qtpth));
-
+    ui->progressBar->setValue(0);
 }
 
 void art_Wiz::swtBpat()
@@ -97,9 +108,33 @@ void art_Wiz::loadAllTabs()
 {
 
     // asset mod
+    QString tb;
+    qDebug() << curdep;
+    if (curdep.toStdString() == "model")
+    {
+        tb = "asset_model";
+
+    }
+    else if (curdep.toStdString() == "rig")
+    {
+        tb = "asset_rig";
+    }
+    else if (curdep.toStdString() == "anim")
+    {
+        tb = "shot_anim";
+    }
+    else if (curdep.toStdString() == "light")
+    {
+        tb = "shot_light";
+    }
+    qDebug() <<tb;
+
+    ui->progressBar->setValue(0);
+    if (curdep == "model" || curdep == "rig" )
+    {
 
     modgen = new MySubClassedSqlTableModel(this);
-    modgen->setTable("asset_mod");
+    modgen->setTable(tb);
     modgen->setEditStrategy(QSqlTableModel::OnRowChange);
     modgen->select();
     modgen->setHeaderData(0,Qt::Horizontal,tr("Asset Type"));
@@ -120,11 +155,9 @@ void art_Wiz::loadAllTabs()
     ui->tabv->setItemDelegateForColumn(6,delg);
     ui->tabv->setItemDelegateForColumn(7,delg);
 
-
-
     QSqlQuery st;
    // st.exec("Select name from user where dept = 'Model'");
-
+   // modgen->setFilter(wuser);
     ui->tabv->setModel(modgen);
     ui->tabv->hideColumn(2);
     ui->tabv->hideColumn(3);
@@ -132,12 +165,56 @@ void art_Wiz::loadAllTabs()
 
     ui->tabv->show();
 
-
     mapper = new QDataWidgetMapper;
     mapper->setModel(modgen);
     mapper->addMapping(ui->lcCom, 3);
     mapper->addMapping(ui->dcCom, 4);
     mapper->setParent(this);
+    }
+
+    else
+    {
+        modgen = new MySubClassedSqlTableModel(this);
+        modgen->setTable(tb);
+        modgen->setEditStrategy(QSqlTableModel::OnRowChange);
+        modgen->select();
+        modgen->setHeaderData(0,Qt::Horizontal,tr("Scene"));
+        modgen->setHeaderData(1,Qt::Horizontal,tr("Shot"));
+        modgen->setHeaderData(2,Qt::Horizontal,tr("Artist"));
+        modgen->setHeaderData(6,Qt::Horizontal,tr("End Date"));
+        modgen->setHeaderData(7,Qt::Horizontal,tr("Status"));
+        modgen->sort(0,Qt::AscendingOrder);
+
+
+        coldel *delg = new coldel(ui->tabv);
+        ui->tabv->setItemDelegateForColumn(0,delg);
+        ui->tabv->setItemDelegateForColumn(1,delg);
+        ui->tabv->setItemDelegateForColumn(2,delg);
+        ui->tabv->setItemDelegateForColumn(3,delg);
+        ui->tabv->setItemDelegateForColumn(4,delg);
+        ui->tabv->setItemDelegateForColumn(5,delg);
+        ui->tabv->setItemDelegateForColumn(6,delg);
+        ui->tabv->setItemDelegateForColumn(7,delg);
+
+        QSqlQuery st;
+       // st.exec("Select name from user where dept = 'Model'");
+       // modgen->setFilter(wuser);
+        ui->tabv->setModel(modgen);
+        ui->tabv->hideColumn(2);
+        ui->tabv->hideColumn(3);
+        ui->tabv->hideColumn(4);
+
+        ui->tabv->show();
+
+        mapper = new QDataWidgetMapper;
+        mapper->setModel(modgen);
+        mapper->addMapping(ui->lcCom, 3);
+        mapper->addMapping(ui->dcCom, 4);
+        mapper->setParent(this);
+
+    }
+
+    ui->progressBar->setValue(100);
 }
 
 
@@ -172,16 +249,16 @@ void art_Wiz::epipop()
 
 void art_Wiz::epiprp(QString tst)
 {
-    QString pt = "select proj from puser where artist = ";
+    QString pt = "select proj,dept from puser where artist = ";
     pt= pt + '\"' + tst + '\"';
     QSqlQuery qry(pt);
     qry.last();
-   // ui->procombo->addItem(qry.value("proj").toString());
+    ui->procombo->addItem(qry.value("proj").toString());
     while (qry.previous())
     {
-    //ui->procombo->addItem(qry.value("proj").toString());
+    curdep = qry.value("dept").toString();
+    ui->procombo->addItem(qry.value("proj").toString());
     }
-
 }
 
 void art_Wiz::on_tabv_clicked(const QModelIndex &index)
@@ -197,12 +274,14 @@ void art_Wiz::on_tabv_clicked(const QModelIndex &index)
     ui->dcuren->setText(selentr);
     ui->lcuren->setText(selentr);
 
-    QString as = "select pvwloc from asset_mas where name = ";
+   /* QString as = "select pvwloc from asset_mas where name = ";
     as = as + "\'" + index.sibling(currow,1).data().toString() + "\'";
     QSqlQuery preloc(curdatab);
     preloc.exec(as);
     preloc.first();
-    QString ppath = preloc.value(0).toString();
+    QString ppath = preloc.value(0).toString(); */
+
+    QString ppath = baseppath + "/" + proj + "/" + "03_Production" +"/" + episd  + "/" + "Assets"  + "/" + index.sibling(currow,0).data().toString() + "s" + "/" + index.sibling(currow,1).data().toString() + "/" + "components" + "/" + "Mod" + "/" + "preview.jpg";
 
     QString defpath = "S:/intelture/Pipeline/noPreview.png";
 
@@ -219,7 +298,9 @@ void art_Wiz::on_tabv_clicked(const QModelIndex &index)
 
   //  ui->detLayout->setStyleSheet("background-color: rgb(50, 155, 255);");
 
-    if (QUrl(ppath).isValid())
+    QFile fl(ppath);
+
+    if (fl.exists())
     {
         ui->prevlab->setPixmap(QPixmap(ppath));
     }

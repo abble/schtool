@@ -389,11 +389,6 @@ public:
     void retranslateUi(QWidget *art_Wiz)
     {
         art_Wiz->setWindowTitle(QApplication::translate("art_Wiz", "art_Wiz", 0));
-        procombo->clear();
-        procombo->insertItems(0, QStringList()
-         << QApplication::translate("art_Wiz", "Jinnrise", 0)
-         << QApplication::translate("art_Wiz", "MaskMasters_SE02", 0)
-        );
         label->setText(QApplication::translate("art_Wiz", "Status", 0));
         datelab->setText(QApplication::translate("art_Wiz", "24/9/2014", 0));
         subbut->setText(QApplication::translate("art_Wiz", "Submit", 0));
