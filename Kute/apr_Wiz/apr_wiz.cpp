@@ -21,14 +21,16 @@ apr_Wiz::apr_Wiz(QWidget *parent) :
 {
 
     ui->setupUi(this);
-
+    ui->proceslab->hide();
+    ui->proscombo->hide();
     this->setStyleSheet("background-color: rgb(255, 255, 255);");
     ui->tabv->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->tabv->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
     swtBpat();
     swtProject("Jinnrise");
-   // wuser = qgetenv("USERNAME");
-   // epiprp(wuser);
+    wuser = qgetenv("USERNAME");
+    wuser = "sharil";
+    epiprp(wuser);
     currow = 10000;
 
 
@@ -59,19 +61,36 @@ void apr_Wiz::swtProject(QString prj)
     proj = prj;
     swtEpisd("EP01");
     epipop();
+
+    QString pt = "select proj,dept from puser where artist = ";
+    pt= pt + '\"' + wuser + '\"';
+    QSqlQuery qry(pt);
+    qry.last();
+    while (qry.previous())
+    {
+    curdep = qry.value("dept").toString();
+    }
+
+    if (curdep == "anim")
+    {
+        ui->proceslab->show();
+        ui->proscombo->show();
+    }
+
     loadAllTabs();
     setCurSt();
     ui->datelab->setText(QDate::currentDate().toString());
     QString qtpth = baseppath + "/" + proj + "/projimage.png";
     ui->prolab->setPixmap(QPixmap(qtpth));
     ui->prolab->setPixmap(QPixmap(qtpth));
+    ui->progressBar->setValue(0);
 }
 
 void apr_Wiz::swtBpat()
 {
-    basepath = "S:/intelture/Pipeline/Sched/datab/";
+     basepath = "S:/intelture/Pipeline/Sched/datab/";
     //  baseppath = "S:/intelture/Pipeline";
-      baseppath = "S:/intelture/Project";
+     baseppath = "S:/intelture/Pipeline";
     //basepath = "/Users/sekhar/Github/dbfiles/";
     //baseppath = "/Users/sekhar/Github/Project/";
 }
@@ -90,8 +109,48 @@ void apr_Wiz::loadAllTabs()
 {
     // asset mod
 
+    if (curdep.toStdString() == "model")
+    {
+        tb = "asset_mod";
+        compnt = "Mod";
+    }
+    else if (curdep.toStdString() == "rig")
+    {
+        tb = "asset_rig";
+        compnt = "Rig";
+    }
+    else if (curdep.toStdString() == "anim")
+    {
+        if (ui->proscombo->currentText().toStdString() == "Previs")
+        {
+         tb = "shot_prev";
+         compnt = "Previs";
+        }
+        else if (ui->proscombo->currentText().toStdString() == "Blocking")
+        {
+            tb = "shot_blk";
+            compnt = "Blocking";
+        }
+        else
+        {
+            tb = "shot_anim";
+            compnt = "Animation";
+        }
+
+    }
+    else if (curdep.toStdString() == "light")
+    {
+        tb = "shot_light";
+        compnt = "Lighting";
+    }
+
+    ui->progressBar->setValue(0);
     modgen = new MySubClassedSqlTableModel(this);
-    modgen->setTable("asset_mod");
+
+    if (curdep == "model" || curdep == "rig" )
+    {
+
+    modgen->setTable(tb);
     modgen->setEditStrategy(QSqlTableModel::OnFieldChange);
     modgen->select();
     modgen->setHeaderData(0,Qt::Horizontal,tr("Asset Type"));
@@ -100,7 +159,6 @@ void apr_Wiz::loadAllTabs()
     modgen->setHeaderData(6,Qt::Horizontal,tr("End Date"));
     modgen->setHeaderData(7,Qt::Horizontal,tr("Status"));
     modgen->sort(0,Qt::AscendingOrder);
-
 
     ComboBoxDelegate *dmodelrs = new ComboBoxDelegate(ui->tabv);
     ui->tabv->setItemDelegateForColumn(2,dmodelrs);
@@ -124,7 +182,11 @@ void apr_Wiz::loadAllTabs()
     ui->artfilcombo->addItem("All");
 
     QSqlQuery st;
-    st.exec("Select artist from user where dept = 'model'");
+    QString qr;
+    qr = "Select artist from puser where dept ";
+    qr = qr + "=" + "\'" + curdep + "\'" + " and " + "proj"+ " = " + "\'" + proj + "\'";
+
+    st.exec(qr);
     mdrs.clear();
     while(st.next())
     {
@@ -147,9 +209,71 @@ void apr_Wiz::loadAllTabs()
     mapper->addMapping(ui->lcCom, 3);
     mapper->addMapping(ui->dcCom, 4);
     mapper->setParent(this);
+    }
+    else
+    {
+        modgen->setTable(tb);
+        modgen->setEditStrategy(QSqlTableModel::OnFieldChange);
+        modgen->select();
+        modgen->setHeaderData(0,Qt::Horizontal,tr("Scene"));
+        modgen->setHeaderData(1,Qt::Horizontal,tr("Shot"));
+        modgen->setHeaderData(2,Qt::Horizontal,tr("Artist"));
+        modgen->setHeaderData(6,Qt::Horizontal,tr("End Date"));
+        modgen->setHeaderData(7,Qt::Horizontal,tr("Status"));
+        modgen->sort(0,Qt::AscendingOrder);
 
+        ComboBoxDelegate *dmodelrs = new ComboBoxDelegate(ui->tabv);
+        ui->tabv->setItemDelegateForColumn(2,dmodelrs);
+
+        datedelegate *dated = new datedelegate(ui->tabv);
+        ui->tabv->setItemDelegateForColumn(6,dated);
+
+        ComboBoxDelegate *statdelg = new ComboBoxDelegate(ui->tabv);
+        ui->tabv->setItemDelegateForColumn(7,statdelg);
+
+        coldel *delg = new coldel(ui->tabv);
+        ui->tabv->setItemDelegateForColumn(0,delg);
+        ui->tabv->setItemDelegateForColumn(1,delg);
+        ui->tabv->setItemDelegateForColumn(2,delg);
+        ui->tabv->setItemDelegateForColumn(3,delg);
+
+        ui->tabv->setItemDelegateForColumn(7,delg);
+
+        statdelg->Items.clear();
+        ui->artfilcombo->clear();
+        ui->artfilcombo->addItem("All");
+
+        QSqlQuery st;
+        QString qr;
+        qr = "Select artist from puser where dept ";
+        qr = qr + "=" + "\'" + curdep + "\'" + " and " + "proj"+ " = " + "\'" + proj + "\'";
+
+        st.exec(qr);
+        mdrs.clear();
+        while(st.next())
+        {
+            dmodelrs->Items.push_back(st.value(0).toString().toStdString());
+            mdrs.append(st.value(0).toString());
+        }
+        ui->artfilcombo->addItems(mdrs);
+
+        ui->tabv->setModel(modgen);
+        ui->tabv->hideColumn(3);
+        ui->tabv->hideColumn(4);
+        ui->tabv->hideColumn(5);
+       // ui->tabv->hideColumn(6);
+        //ui->tabv->hideColumn(8);
+        ui->tabv->show();
+
+
+        mapper = new QDataWidgetMapper;
+        mapper->setModel(modgen);
+        mapper->addMapping(ui->lcCom, 3);
+        mapper->addMapping(ui->dcCom, 4);
+        mapper->setParent(this);
+    }
+    ui->progressBar->setValue(100);
 }
-
 
 void apr_Wiz::swtDatabase(QString datab)
 {
@@ -183,13 +307,14 @@ void apr_Wiz::epipop()
 
 void apr_Wiz::epiprp(QString tst)
 {
-    QString pt = "select proj from puser where artist = ";
+    QString pt = "select proj,dept from puser where artist = ";
     pt= pt + '\"' + tst + '\"';
     QSqlQuery qry(pt);
     qry.last();
     ui->procombo->addItem(qry.value("proj").toString());
     while (qry.previous())
     {
+    curdep = qry.value("dept").toString();
     ui->procombo->addItem(qry.value("proj").toString());
     }
 
@@ -216,7 +341,23 @@ void apr_Wiz::on_tabv_clicked(const QModelIndex &index)
     QString ppath = preloc.value(0).toString(); */
 
 
-    QString ppath = baseppath + "/" + proj + "/" + "03_Production" +"/" + episd  + "/" + "Assets"  + "/" + index.sibling(currow,0).data().toString() + "s" + "/" + index.sibling(currow,1).data().toString() + "/" + "components" + "/" + "Mod" + "/" + "preview.jpg";
+    QString ppath;
+
+    if (curdep == "model" || curdep == "rig")
+    {
+        if (index.sibling(currow,0).data().toString() == "environment")
+        {
+        ppath = baseppath + "/" + proj + "/" + "03_Production" +"/" + episd  + "/" + "Assets"  + "/" + index.sibling(currow,0).data().toString() + "/" + index.sibling(currow,1).data().toString() + "/" + "components" + "/" + compnt + "/" + "preview.jpg";
+        }
+        else
+        {
+        ppath = baseppath + "/" + proj + "/" + "03_Production" +"/" + episd  + "/" + "Assets"  + "/" + index.sibling(currow,0).data().toString()+ "s" + "/" + index.sibling(currow,1).data().toString() + "/" + "components" + "/" + compnt + "/" + "preview.jpg";
+        }
+    }
+    else
+    {
+    ppath = baseppath + "/" + proj + "/" + "03_Production" +"/" + episd  +  "/" + "Animations"  + "/" + index.sibling(currow,0).data().toString() + "/" + index.sibling(currow,1).data().toString() + "/" + "components" + "/" + compnt + "/" + "preview.jpg";
+    }
 
     ui->enddtlab->setText("End Date : " + index.sibling(currow,6).data().toString());
 
@@ -277,8 +418,8 @@ void apr_Wiz::on_procombo_currentTextChanged(const QString &arg1)
 {
     proj = arg1;
     ui->epcombo->clear();
+    ui->statfilcombo->setCurrentIndex(0);
     swtProject(proj);
-
 }
 
 void apr_Wiz::on_artfilcombo_currentTextChanged(const QString &arg1)
@@ -339,4 +480,10 @@ void apr_Wiz::on_statfilcombo_currentTextChanged(const QString &arg1)
     {
      modgen->setFilter("");
     }
+}
+
+void apr_Wiz::on_proscombo_currentTextChanged(const QString &arg1)
+{
+    loadAllTabs();
+    ui->progressBar->setValue(0);
 }

@@ -92,6 +92,7 @@ public:
     QString wuser;
     int statc;
     QString curdep;
+    QString tb,compnt;
 
 private slots:
     void on_tabv_clicked(const QModelIndex &index);
@@ -103,6 +104,8 @@ private slots:
     void on_statfilcombo_currentTextChanged(const QString &arg1);
 
     void on_procombo_currentTextChanged(const QString &arg1);
+
+    void on_proscombo_currentTextChanged(const QString &arg1);
 
 private:
     Ui::art_Wiz *ui;

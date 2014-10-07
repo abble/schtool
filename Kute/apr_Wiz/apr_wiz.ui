@@ -93,16 +93,6 @@
         <property name="styleSheet">
          <string notr="true">color: rgb(255, 255, 255);</string>
         </property>
-        <item>
-         <property name="text">
-          <string>Jinnrise</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>MaskMasters_SE02</string>
-         </property>
-        </item>
        </widget>
       </item>
       <item>
@@ -178,6 +168,69 @@
         <property name="styleSheet">
          <string notr="true">color: rgb(255, 255, 255);</string>
         </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="proceslab">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Trebuchet MS</family>
+          <pointsize>10</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">color: rgb(255, 255, 255);</string>
+        </property>
+        <property name="text">
+         <string>Process</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="proscombo">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Trebuchet MS</family>
+          <pointsize>10</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">color: rgb(255, 255, 255);</string>
+        </property>
+        <item>
+         <property name="text">
+          <string>Animation</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Blocking</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Previs</string>
+         </property>
+        </item>
        </widget>
       </item>
       <item>
@@ -841,6 +894,22 @@ color: rgb(255, 255, 255);</string>
      </property>
      <property name="text">
       <string>Jinnrise</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QProgressBar" name="progressBar">
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>8</height>
+      </size>
+     </property>
+     <property name="value">
+      <number>24</number>
+     </property>
+     <property name="textVisible">
+      <bool>false</bool>
      </property>
     </widget>
    </item>

@@ -72,13 +72,13 @@
        <widget class="QComboBox" name="procombo">
         <property name="minimumSize">
          <size>
-          <width>60</width>
+          <width>0</width>
           <height>40</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>240</width>
+          <width>16777215</width>
           <height>16777215</height>
          </size>
         </property>
@@ -92,6 +92,9 @@
         </property>
         <property name="styleSheet">
          <string notr="true">color: rgb(255, 255, 255);</string>
+        </property>
+        <property name="insertPolicy">
+         <enum>QComboBox::InsertAlphabetically</enum>
         </property>
        </widget>
       </item>
@@ -105,7 +108,7 @@
         </property>
         <property name="maximumSize">
          <size>
-          <width>120</width>
+          <width>16777215</width>
           <height>16777215</height>
          </size>
         </property>
@@ -123,11 +126,92 @@
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="label">
-        <property name="maximumSize">
+       <widget class="QLabel" name="proceslab">
+        <property name="minimumSize">
          <size>
           <width>120</width>
           <height>40</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Trebuchet MS</family>
+          <pointsize>10</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">color: rgb(255, 255, 255);</string>
+        </property>
+        <property name="text">
+         <string>Process</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="proscombo">
+        <property name="minimumSize">
+         <size>
+          <width>120</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Trebuchet MS</family>
+          <pointsize>10</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">color: rgb(255, 255, 255);</string>
+        </property>
+        <item>
+         <property name="text">
+          <string>Animation</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Blocking</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Previs</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label">
+        <property name="minimumSize">
+         <size>
+          <width>120</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777215</height>
          </size>
         </property>
         <property name="font">
@@ -153,14 +237,14 @@
        <widget class="QComboBox" name="statfilcombo">
         <property name="minimumSize">
          <size>
-          <width>60</width>
+          <width>120</width>
           <height>40</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>120</width>
-          <height>40</height>
+          <width>16777215</width>
+          <height>16777215</height>
          </size>
         </property>
         <property name="font">

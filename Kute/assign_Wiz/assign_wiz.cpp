@@ -399,7 +399,7 @@ void assign_wiz::swtBpat()
 {
     basepath = "S:/intelture/Pipeline/Sched/datab/";
   //  baseppath = "S:/intelture/Pipeline";
-    baseppath = "S:/intelture/Project";
+    baseppath = "S:/intelture/Pipeline";
     //basepath = "/Users/sekhar/Github/dbfiles/";
     //baseppath = "/Users/sekhar/Github/Project/";
 }
@@ -1098,5 +1098,11 @@ void assign_wiz::on_procombo_currentIndexChanged(const QString &arg1)
 {
     proj = arg1;
     ui->epcombo->clear();
+    ui->statfilcombo->setCurrentIndex(0);
+    ui->artfilcombo->setCurrentIndex(0);
+
+    curartfil = "";
+    curstatfil = "";
+
     swtProject(proj);
 }

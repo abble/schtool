@@ -1,16 +1,13 @@
 Assign Wiz
 
 Fixes
-	- projects all the projects
 
 Aprov Wiz
 
 Fixes
-	- only lead projects & current project
 	- video
 
 Art Wiz
 
 Fixes
-	- only artist projects & current project
 	- video

@@ -19,8 +19,9 @@ art_Wiz::art_Wiz(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::art_Wiz)
 {
-
     ui->setupUi(this);
+    ui->proceslab->hide();
+    ui->proscombo->hide();
     visset();
     swtBpat();
     swtProject("Jinnrise");
@@ -31,9 +32,7 @@ art_Wiz::art_Wiz(QWidget *parent) :
     wuser = "sharil";
     epiprp(wuser);
     currow = 10000;
-
 }
-
 
 
 void art_Wiz::visset()
@@ -76,6 +75,13 @@ void art_Wiz::swtProject(QString prj)
     {
     curdep = qry.value("dept").toString();
     }
+
+    if (curdep == "anim")
+    {
+        ui->proceslab->show();
+        ui->proscombo->show();
+    }
+
     loadAllTabs();
     setCurSt();
     ui->datelab->setText(QDate::currentDate().toString());
@@ -89,7 +95,7 @@ void art_Wiz::swtBpat()
 {
     basepath = "S:/intelture/Pipeline/Sched/datab/";
     //baseppath = "S:/intelture/Pipeline";
-    baseppath = "S:/intelture/Project";
+    baseppath = "S:/intelture/Pipeline";
     //basepath = "/Users/sekhar/Github/dbfiles/";
     //baseppath = "/Users/sekhar/Github/Project/";
 }
@@ -108,32 +114,50 @@ void art_Wiz::loadAllTabs()
 {
 
     // asset mod
-    QString tb;
-    qDebug() << curdep;
+
+
     if (curdep.toStdString() == "model")
     {
-        tb = "asset_model";
-
+        tb = "asset_mod";
+        compnt = "Mod";
     }
     else if (curdep.toStdString() == "rig")
     {
         tb = "asset_rig";
+        compnt = "Rig";
     }
     else if (curdep.toStdString() == "anim")
     {
-        tb = "shot_anim";
+        if (ui->proscombo->currentText().toStdString() == "Previs")
+        {
+         tb = "shot_prev";
+         compnt = "Previs";
+        }
+        else if (ui->proscombo->currentText().toStdString() == "Blocking")
+        {
+            tb = "shot_blk";
+            compnt = "Blocking";
+        }
+        else
+        {
+            tb = "shot_anim";
+            compnt = "Animation";
+        }
+
     }
     else if (curdep.toStdString() == "light")
     {
         tb = "shot_light";
+        compnt = "Lighting";
     }
-    qDebug() <<tb;
+
 
     ui->progressBar->setValue(0);
+    modgen = new MySubClassedSqlTableModel(this);
+
     if (curdep == "model" || curdep == "rig" )
     {
 
-    modgen = new MySubClassedSqlTableModel(this);
     modgen->setTable(tb);
     modgen->setEditStrategy(QSqlTableModel::OnRowChange);
     modgen->select();
@@ -157,7 +181,7 @@ void art_Wiz::loadAllTabs()
 
     QSqlQuery st;
    // st.exec("Select name from user where dept = 'Model'");
-   // modgen->setFilter(wuser);
+    modgen->setFilter(wuser);
     ui->tabv->setModel(modgen);
     ui->tabv->hideColumn(2);
     ui->tabv->hideColumn(3);
@@ -174,7 +198,6 @@ void art_Wiz::loadAllTabs()
 
     else
     {
-        modgen = new MySubClassedSqlTableModel(this);
         modgen->setTable(tb);
         modgen->setEditStrategy(QSqlTableModel::OnRowChange);
         modgen->select();
@@ -198,7 +221,7 @@ void art_Wiz::loadAllTabs()
 
         QSqlQuery st;
        // st.exec("Select name from user where dept = 'Model'");
-       // modgen->setFilter(wuser);
+        modgen->setFilter(wuser);
         ui->tabv->setModel(modgen);
         ui->tabv->hideColumn(2);
         ui->tabv->hideColumn(3);
@@ -280,8 +303,23 @@ void art_Wiz::on_tabv_clicked(const QModelIndex &index)
     preloc.exec(as);
     preloc.first();
     QString ppath = preloc.value(0).toString(); */
+    QString ppath;
 
-    QString ppath = baseppath + "/" + proj + "/" + "03_Production" +"/" + episd  + "/" + "Assets"  + "/" + index.sibling(currow,0).data().toString() + "s" + "/" + index.sibling(currow,1).data().toString() + "/" + "components" + "/" + "Mod" + "/" + "preview.jpg";
+    if (curdep == "model" || curdep == "rig")
+    {
+        if (index.sibling(currow,0).data().toString() == "environment")
+        {
+        ppath = baseppath + "/" + proj + "/" + "03_Production" +"/" + episd  + "/" + "Assets"  + "/" + index.sibling(currow,0).data().toString() + "/" + index.sibling(currow,1).data().toString() + "/" + "components" + "/" + compnt + "/" + "preview.jpg";
+        }
+        else
+        {
+        ppath = baseppath + "/" + proj + "/" + "03_Production" +"/" + episd  + "/" + "Assets"  + "/" + index.sibling(currow,0).data().toString()+ "s" + "/" + index.sibling(currow,1).data().toString() + "/" + "components" + "/" + compnt + "/" + "preview.jpg";
+        }
+    }
+    else
+    {
+    ppath = baseppath + "/" + proj + "/" + "03_Production" +"/" + episd  +  "/" + "Animations"  + "/" + index.sibling(currow,0).data().toString() + "/" + index.sibling(currow,1).data().toString() + "/" + "components" + "/" + compnt + "/" + "preview.jpg";
+    }
 
     QString defpath = "S:/intelture/Pipeline/noPreview.png";
 
@@ -362,5 +400,12 @@ void art_Wiz::on_procombo_currentTextChanged(const QString &arg1)
 {
     proj = arg1;
     ui->epcombo->clear();
+    ui->statfilcombo->setCurrentIndex(0);
     swtProject(proj);
+}
+
+void art_Wiz::on_proscombo_currentTextChanged(const QString &arg1)
+{
+    loadAllTabs();
+    ui->progressBar->setValue(0);
 }

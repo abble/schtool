@@ -72,6 +72,7 @@ public:
     void setPreviewPan();
     void setCurSt();
     void loadAllTabs();
+    void visset();
 
 
 
@@ -92,6 +93,7 @@ public:
     QStringList mdrs;
     int statc,stata;
     QString curdep;
+    QString tb,compnt;
 
 
 private slots:
@@ -108,6 +110,8 @@ private slots:
     void on_artfilcombo_currentTextChanged(const QString &arg1);
 
     void on_statfilcombo_currentTextChanged(const QString &arg1);
+
+    void on_proscombo_currentTextChanged(const QString &arg1);
 
 private:
     Ui::apr_Wiz *ui;
