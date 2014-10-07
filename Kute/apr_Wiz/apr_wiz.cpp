@@ -88,7 +88,7 @@ void apr_Wiz::swtProject(QString prj)
 
 void apr_Wiz::swtBpat()
 {
-     basepath = "S:/intelture/Pipeline/Sched/datab/";
+     basepath = "S:/intelture/Pipeline/Sched/datab/Test/";
     //  baseppath = "S:/intelture/Pipeline";
      baseppath = "S:/intelture/Pipeline";
     //basepath = "/Users/sekhar/Github/dbfiles/";

@@ -93,11 +93,11 @@ void art_Wiz::swtProject(QString prj)
 
 void art_Wiz::swtBpat()
 {
-    basepath = "S:/intelture/Pipeline/Sched/datab/";
+    basepath = "S:/intelture/Pipeline/Sched/datab/Test";
     //baseppath = "S:/intelture/Pipeline";
     baseppath = "S:/intelture/Pipeline";
     //basepath = "/Users/sekhar/Github/dbfiles/";
-    //baseppath = "/Users/sekhar/Github/Project/";
+    //baseppath = "/Users/sekhar/Github/Project/";/
 }
 
 void art_Wiz::swtEpisd(QString epsd)

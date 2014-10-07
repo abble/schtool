@@ -397,7 +397,7 @@ void assign_wiz::swtDatabase(QString datab)
 
 void assign_wiz::swtBpat()
 {
-    basepath = "S:/intelture/Pipeline/Sched/datab/";
+    basepath = "S:/intelture/Pipeline/Sched/datab/Test/";
   //  baseppath = "S:/intelture/Pipeline";
     baseppath = "S:/intelture/Pipeline";
     //basepath = "/Users/sekhar/Github/dbfiles/";
