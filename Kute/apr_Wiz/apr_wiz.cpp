@@ -31,6 +31,7 @@ apr_Wiz::apr_Wiz(QWidget *parent) :
     wuser = qgetenv("USERNAME");
     wuser = "sharil";
     epiprp(wuser);
+    ui->userlab->setText("User: " + wuser.toUpper() + "  ");
     currow = 10000;
 
 
@@ -443,7 +444,7 @@ void apr_Wiz::on_artfilcombo_currentTextChanged(const QString &arg1)
       }
       else if (curstatfil == "" && curartfil != "")
       {
-      modgen->setFilter(QString("status like '%%1%'").arg(curartfil));
+      modgen->setFilter(QString("artist like '%%1%'").arg(curartfil));
       }
       else
       {
@@ -474,7 +475,7 @@ void apr_Wiz::on_statfilcombo_currentTextChanged(const QString &arg1)
     }
     else if (curstatfil == "" && curartfil != "")
     {
-    modgen->setFilter(QString("status like '%%1%'").arg(curartfil));
+    modgen->setFilter(QString("artist like '%%1%'").arg(curartfil));
     }
     else
     {

@@ -93,6 +93,7 @@ public:
     int statc;
     QString curdep;
     QString tb,compnt;
+    QString fil;
 
 private slots:
     void on_tabv_clicked(const QModelIndex &index);

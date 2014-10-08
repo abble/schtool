@@ -100,6 +100,11 @@
         </item>
         <item>
          <property name="text">
+          <string>Megabear</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
           <string>MaskMasters_SE02</string>
          </property>
         </item>
@@ -237,6 +242,9 @@
           <weight>75</weight>
           <bold>true</bold>
          </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">color: rgb(203, 203, 203);</string>
         </property>
         <property name="text">
          <string>19/09/2014</string>

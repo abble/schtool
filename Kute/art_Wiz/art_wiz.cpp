@@ -29,7 +29,10 @@ art_Wiz::art_Wiz(QWidget *parent) :
     curartfil = "";
     statc = 0;
     wuser = qgetenv("USERNAME");
+    fil = "artist = ";
+    fil = fil + "\'" + wuser + "\'";
     wuser = "sharil";
+    ui->usernam->setText("User :"+wuser+"  ");
     epiprp(wuser);
     currow = 10000;
 }
@@ -93,7 +96,7 @@ void art_Wiz::swtProject(QString prj)
 
 void art_Wiz::swtBpat()
 {
-    basepath = "S:/intelture/Pipeline/Sched/datab/Test";
+    basepath = "S:/intelture/Pipeline/Sched/datab/Test/";
     //baseppath = "S:/intelture/Pipeline";
     baseppath = "S:/intelture/Pipeline";
     //basepath = "/Users/sekhar/Github/dbfiles/";
@@ -155,6 +158,8 @@ void art_Wiz::loadAllTabs()
     ui->progressBar->setValue(0);
     modgen = new MySubClassedSqlTableModel(this);
 
+
+
     if (curdep == "model" || curdep == "rig" )
     {
 
@@ -181,7 +186,10 @@ void art_Wiz::loadAllTabs()
 
     QSqlQuery st;
    // st.exec("Select name from user where dept = 'Model'");
-    modgen->setFilter(wuser);
+    fil = "artist = ";
+    fil = fil + "\'" + wuser + "\'";
+    modgen->setFilter(fil);
+
     ui->tabv->setModel(modgen);
     ui->tabv->hideColumn(2);
     ui->tabv->hideColumn(3);
@@ -221,7 +229,12 @@ void art_Wiz::loadAllTabs()
 
         QSqlQuery st;
        // st.exec("Select name from user where dept = 'Model'");
-        modgen->setFilter(wuser);
+
+        fil = "artist = ";
+        fil = fil + "\'" + wuser + "\'";
+        modgen->setFilter(fil);
+
+        modgen->setFilter(fil);
         ui->tabv->setModel(modgen);
         ui->tabv->hideColumn(2);
         ui->tabv->hideColumn(3);
@@ -391,7 +404,9 @@ void art_Wiz::on_statfilcombo_currentTextChanged(const QString &arg1)
     }
     else if (statc == 1)
     {
-       modgen->setFilter("");
+        fil = "artist = ";
+        fil = fil + "\'" + wuser + "\'";
+        modgen->setFilter(fil);
     }
 
 }

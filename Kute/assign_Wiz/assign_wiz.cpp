@@ -22,7 +22,7 @@ assign_wiz::assign_wiz(QWidget *parent) :
     ui->setupUi(this);
     visset();    
     swtBpat();
-    swtProject("JinnRise");
+    swtProject("Jinnrise");
 
     ui->artfilcombo->addItems(mdrs);
     curstatfil = "";
@@ -147,7 +147,11 @@ void assign_wiz::loadAllTabs()
     statdelg->Items.push_back("Assigned");
 
     QSqlQuery st;
-    st.exec("Select artist from user where dept = 'model'");
+    QString qr;
+    qr = "Select artist from puser where dept =";
+    qr = qr + "\'" + "model" + "\'" + " and " + "proj"+ " = " + "\'" + proj + "\'";
+
+    st.exec(qr);
 
     mdrs.clear();
     dmodelrs->Items.push_back("");
@@ -188,7 +192,10 @@ void assign_wiz::loadAllTabs()
     ui->rigtabv->setItemDelegateForColumn(1,delg);
     ui->rigtabv->setItemDelegateForColumn(7,delg);
 
-    st.exec("Select artist from user where dept = 'rig'");
+    qr = "Select artist from puser where dept =";
+    qr = qr + "\'" + "rig" + "\'" + " and " + "proj"+ " = " + "\'" + proj + "\'";
+
+    st.exec(qr);
     rgrs.clear();
     drigers->Items.push_back("");
 
@@ -228,7 +235,10 @@ void assign_wiz::loadAllTabs()
     ui->prevtabv->setItemDelegateForColumn(1,delg);
     ui->prevtabv->setItemDelegateForColumn(7,delg);
 
-    st.exec("Select artist from user where dept = 'anim'");
+    qr = "Select artist from puser where dept =";
+    qr = qr + "\'" + "anim" + "\'" + " and " + "proj"+ " = " + "\'" + proj + "\'";
+
+    st.exec(qr);
     animrs.clear();
     dprev->Items.push_back("");
 
@@ -270,7 +280,10 @@ void assign_wiz::loadAllTabs()
     ui->blktabv->setItemDelegateForColumn(7,delg);
 
 
-    st.exec("Select artist from user where dept = 'anim'");
+    qr = "Select artist from puser where dept =";
+    qr = qr + "\'" + "anim" + "\'" + " and " + "proj"+ " = " + "\'" + proj + "\'";
+
+    st.exec(qr);
     dblk->Items.push_back("");
 
     while(st.next())
@@ -309,7 +322,10 @@ void assign_wiz::loadAllTabs()
     ui->anitabv->setItemDelegateForColumn(1,delg);
     ui->anitabv->setItemDelegateForColumn(7,delg);
 
-    st.exec("Select artist from user where dept = 'anim'");
+    qr = "Select artist from puser where dept =";
+    qr = qr + "\'" + "anim" + "\'" + " and " + "proj"+ " = " + "\'" + proj + "\'";
+
+    st.exec(qr);
     danim->Items.push_back("");
 
     while(st.next())
@@ -347,7 +363,10 @@ void assign_wiz::loadAllTabs()
     ui->lighttabv->setItemDelegateForColumn(1,delg);
     ui->lighttabv->setItemDelegateForColumn(7,delg);
 
-    st.exec("Select artist from user where dept = 'light'");
+    qr = "Select artist from puser where dept =";
+    qr = qr + "\'" + "light" + "\'" + " and " + "proj"+ " = " + "\'" + proj + "\'";
+
+    st.exec(qr);
     ligrs.clear();
     dlight->Items.push_back("");
 
@@ -430,7 +449,7 @@ void assign_wiz::getnasentrs()
         flist << "character_" + iter.next().toLower();
     }
 
-    pth = baseppath + "/" + proj + "/" + "03_Production" + "/" + episd  + "/" + "assets" + "/" + "Environments";
+    pth = baseppath + "/" + proj + "/" + "03_Production" + "/" + episd  + "/" + "assets" + "/" + "Environment";
     fld.setPath(pth);
     ftlist = fld.entryList(ftlist,QDir::AllDirs|QDir::NoDotAndDotDot);
 
@@ -1100,9 +1119,8 @@ void assign_wiz::on_procombo_currentIndexChanged(const QString &arg1)
     ui->epcombo->clear();
     ui->statfilcombo->setCurrentIndex(0);
     ui->artfilcombo->setCurrentIndex(0);
-
     curartfil = "";
     curstatfil = "";
-
     swtProject(proj);
+    on_asbut_clicked();
 }
