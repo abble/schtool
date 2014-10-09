@@ -29,7 +29,7 @@ apr_Wiz::apr_Wiz(QWidget *parent) :
     swtBpat();
     swtProject("Jinnrise");
     wuser = qgetenv("USERNAME");
-    wuser = "sharil";
+   // wuser = "sharil";
     epiprp(wuser);
     ui->userlab->setText("User: " + wuser.toUpper() + "  ");
     currow = 10000;

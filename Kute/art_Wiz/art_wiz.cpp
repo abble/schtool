@@ -31,7 +31,7 @@ art_Wiz::art_Wiz(QWidget *parent) :
     wuser = qgetenv("USERNAME");
     fil = "artist = ";
     fil = fil + "\'" + wuser + "\'";
-    wuser = "sharil";
+ //   wuser = "sharil";
     ui->usernam->setText("User :"+wuser+"  ");
     epiprp(wuser);
     currow = 10000;
