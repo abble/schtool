@@ -22,6 +22,7 @@ art_Wiz::art_Wiz(QWidget *parent) :
     ui->setupUi(this);
     ui->proceslab->hide();
     ui->proscombo->hide();
+    ui->subbut->hide();
     visset();
     swtBpat();
     swtProject("Jinnrise");
@@ -29,9 +30,10 @@ art_Wiz::art_Wiz(QWidget *parent) :
     curartfil = "";
     statc = 0;
     wuser = qgetenv("USERNAME");
+
     fil = "artist = ";
     fil = fil + "\'" + wuser + "\'";
- //   wuser = "sharil";
+
     ui->usernam->setText("User :"+wuser+"  ");
     epiprp(wuser);
     currow = 10000;
@@ -164,7 +166,7 @@ void art_Wiz::loadAllTabs()
     {
 
     modgen->setTable(tb);
-    modgen->setEditStrategy(QSqlTableModel::OnRowChange);
+    modgen->setEditStrategy(QSqlTableModel::OnFieldChange);
     modgen->select();
     modgen->setHeaderData(0,Qt::Horizontal,tr("Asset Type"));
     modgen->setHeaderData(1,Qt::Horizontal,tr("Asset Name"));
@@ -186,6 +188,7 @@ void art_Wiz::loadAllTabs()
 
     QSqlQuery st;
    // st.exec("Select name from user where dept = 'Model'");
+
     fil = "artist = ";
     fil = fil + "\'" + wuser + "\'";
     modgen->setFilter(fil);
@@ -207,7 +210,7 @@ void art_Wiz::loadAllTabs()
     else
     {
         modgen->setTable(tb);
-        modgen->setEditStrategy(QSqlTableModel::OnRowChange);
+        modgen->setEditStrategy(QSqlTableModel::OnFieldChange);
         modgen->select();
         modgen->setHeaderData(0,Qt::Horizontal,tr("Scene"));
         modgen->setHeaderData(1,Qt::Horizontal,tr("Shot"));
@@ -289,10 +292,10 @@ void art_Wiz::epiprp(QString tst)
     pt= pt + '\"' + tst + '\"';
     QSqlQuery qry(pt);
     qry.last();
+    curdep = qry.value("dept").toString();
     ui->procombo->addItem(qry.value("proj").toString());
     while (qry.previous())
     {
-    curdep = qry.value("dept").toString();
     ui->procombo->addItem(qry.value("proj").toString());
     }
 }
@@ -368,12 +371,25 @@ void art_Wiz::on_subbut_clicked()
     {
     modgen->setData(modgen->index(currow,7),"Submit");
     }
+
 }
 
 void art_Wiz::on_videobut_clicked()
 {
-    QString as = "select lfloc from asset_mas where name = ";
-    as = as + "\'" + curindex.sibling(currow,1).data().toString() + "\'";
+    QString as;
+    if (curdep.toStdString() == "model" || curdep.toStdString() == "rig")
+    {
+        as = "select lfloc from asset_mas where type = ";
+        as = as + "\'" + curindex.sibling(currow,0).data().toString() + "\'";
+        as = as + " and name = " "\'" + curindex.sibling(currow,1).data().toString() + "\'";
+    }
+    else
+    {
+        as = "select lfloc from shot_mas where scene = ";
+        as = as + "\'" + curindex.sibling(currow,0).data().toString() + "\'";
+        as = as + " and shot = " "\'" + curindex.sibling(currow,1).data().toString() + "\'";
+    }
+
     QSqlQuery preloc(curdatab);
     preloc.exec(as);
     preloc.first();

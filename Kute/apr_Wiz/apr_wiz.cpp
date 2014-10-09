@@ -29,7 +29,7 @@ apr_Wiz::apr_Wiz(QWidget *parent) :
     swtBpat();
     swtProject("Jinnrise");
     wuser = qgetenv("USERNAME");
-   // wuser = "sharil";
+
     epiprp(wuser);
     ui->userlab->setText("User: " + wuser.toUpper() + "  ");
     currow = 10000;
@@ -312,10 +312,10 @@ void apr_Wiz::epiprp(QString tst)
     pt= pt + '\"' + tst + '\"';
     QSqlQuery qry(pt);
     qry.last();
+    curdep = qry.value("dept").toString();
     ui->procombo->addItem(qry.value("proj").toString());
     while (qry.previous())
     {
-    curdep = qry.value("dept").toString();
     ui->procombo->addItem(qry.value("proj").toString());
     }
 
@@ -401,8 +401,20 @@ void apr_Wiz::on_rebut_clicked()
 
 void apr_Wiz::on_vidbut_clicked()
 {
-    QString as = "select lfloc from asset_mas where name = ";
-    as = as + "\'" + curindex.sibling(currow,1).data().toString() + "\'";
+    QString as;
+    if (curdep.toStdString() == "model" || curdep.toStdString() == "rig")
+    {
+        as = "select lfloc from asset_mas where type = ";
+        as = as + "\'" + curindex.sibling(currow,0).data().toString() + "\'";
+        as = as + " and name = " "\'" + curindex.sibling(currow,1).data().toString() + "\'";
+    }
+    else
+    {
+        as = "select lfloc from shot_mas where scene = ";
+        as = as + "\'" + curindex.sibling(currow,0).data().toString() + "\'";
+        as = as + " and shot = " "\'" + curindex.sibling(currow,1).data().toString() + "\'";
+    }
+
     QSqlQuery preloc(curdatab);
     preloc.exec(as);
     preloc.first();
