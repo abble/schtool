@@ -19,6 +19,10 @@ SOURCES += main.cpp\
     datedelegate.cpp \
     coldel.cpp
 
+ICON += assign_Wiz.ico
+
+RC_FILE += assign_Wiz.rc
+
 HEADERS  += assign_wiz.h \
     comboboxdelegate.h \
     datedelegate.h \

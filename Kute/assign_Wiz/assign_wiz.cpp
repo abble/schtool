@@ -77,7 +77,8 @@ void assign_wiz::swtProject(QString prj)
     ui->prog->setValue(0);
     setCurSt();
     ui->datelab->setText(QDate::currentDate().toString());
-    QString qtpth = baseppath + "/" + proj + "/projimage.png";
+    QString qtpth = basepath  + proj + "/projimage.png";
+    qDebug() << qtpth ;
     ui->asprolab->setPixmap(QPixmap(qtpth));
     ui->shprolab->setPixmap(QPixmap(qtpth));
 

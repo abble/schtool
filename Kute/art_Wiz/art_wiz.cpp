@@ -86,11 +86,16 @@ void art_Wiz::swtProject(QString prj)
         ui->proceslab->show();
         ui->proscombo->show();
     }
+    else
+    {
+        ui->proceslab->hide();
+        ui->proscombo->hide();
+    }
 
     loadAllTabs();
     setCurSt();
     ui->datelab->setText(QDate::currentDate().toString());
-    QString qtpth = baseppath + "/" + proj + "/projimage.png";
+    QString qtpth = basepath + proj + "/projimage.png";
     ui->prolab->setPixmap(QPixmap(qtpth));
     ui->prolab->setPixmap(QPixmap(qtpth));
     ui->progressBar->setValue(0);

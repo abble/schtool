@@ -16,6 +16,10 @@
   <property name="windowTitle">
    <string>assign_wiz</string>
   </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>assiwiz_32.png</normaloff>assiwiz_32.png</iconset>
+  </property>
   <property name="styleSheet">
    <string notr="true"/>
   </property>
@@ -816,6 +820,9 @@
                 </property>
                 <property name="pixmap">
                  <pixmap>S:/intelture/Pipeline/noPreview.png</pixmap>
+                </property>
+                <property name="scaledContents">
+                 <bool>true</bool>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>

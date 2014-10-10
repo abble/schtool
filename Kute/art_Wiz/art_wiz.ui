@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>art_Wiz</string>
   </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>artwiz_32.png</normaloff>artwiz_32.png</iconset>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="spacing">
     <number>2</number>
@@ -767,6 +771,9 @@ color: rgb(255, 255, 255);</string>
            <property name="pixmap">
             <pixmap>S:/intelture/Pipeline/noPreview.png</pixmap>
            </property>
+           <property name="scaledContents">
+            <bool>true</bool>
+           </property>
           </widget>
          </item>
          <item>
@@ -788,6 +795,9 @@ color: rgb(255, 255, 255);</string>
            </property>
            <property name="pixmap">
             <pixmap>S:/intelture/Pipeline/noPreview.png</pixmap>
+           </property>
+           <property name="scaledContents">
+            <bool>true</bool>
            </property>
           </widget>
          </item>

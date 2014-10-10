@@ -14,6 +14,7 @@
 #include "comboboxdelegate.h"
 #include "coldel.h"
 #include "datedelegate.h"
+#include "QIcon"
 
 apr_Wiz::apr_Wiz(QWidget *parent) :
     QWidget(parent),
@@ -81,7 +82,7 @@ void apr_Wiz::swtProject(QString prj)
     loadAllTabs();
     setCurSt();
     ui->datelab->setText(QDate::currentDate().toString());
-    QString qtpth = baseppath + "/" + proj + "/projimage.png";
+    QString qtpth = basepath  + proj + "/projimage.png";
     ui->prolab->setPixmap(QPixmap(qtpth));
     ui->prolab->setPixmap(QPixmap(qtpth));
     ui->progressBar->setValue(0);

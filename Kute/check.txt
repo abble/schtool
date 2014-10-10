@@ -6,10 +6,12 @@ Aprov Wiz
 
 Fixes
 	- video
-	- artist name
+
 
 Art Wiz
 
 Fixes
 	- video
-	- artist name
+
+
+submit

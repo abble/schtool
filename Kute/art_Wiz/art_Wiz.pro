@@ -17,6 +17,10 @@ SOURCES += main.cpp\
     coldel.cpp \
     comboboxdelegate.cpp
 
+ICON = art_Wiz.ico
+
+RC_FILE = art_Wiz.rc
+
 HEADERS  += art_wiz.h \
     coldel.h \
     comboboxdelegate.h
