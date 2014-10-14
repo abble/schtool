@@ -384,13 +384,13 @@ void art_Wiz::on_videobut_clicked()
     QString as;
     if (curdep.toStdString() == "model" || curdep.toStdString() == "rig")
     {
-        as = "select lfloc from asset_mas where type = ";
+        as = "select pvwloc from asset_mas where type = ";
         as = as + "\'" + curindex.sibling(currow,0).data().toString() + "\'";
         as = as + " and name = " "\'" + curindex.sibling(currow,1).data().toString() + "\'";
     }
     else
     {
-        as = "select lfloc from shot_mas where scene = ";
+        as = "select pwvloc from shot_mas where scene = ";
         as = as + "\'" + curindex.sibling(currow,0).data().toString() + "\'";
         as = as + " and shot = " "\'" + curindex.sibling(currow,1).data().toString() + "\'";
     }
@@ -398,7 +398,7 @@ void art_Wiz::on_videobut_clicked()
     QSqlQuery preloc(curdatab);
     preloc.exec(as);
     preloc.first();
-    QString ppath = preloc.value(0).toString();
+    QString ppath = preloc.value("pvwloc").toString();
     QUrl url(ppath);
 
     if (url.isValid())
